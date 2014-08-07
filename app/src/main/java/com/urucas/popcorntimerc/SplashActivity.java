@@ -1,0 +1,85 @@
+package com.urucas.popcorntimerc;
+
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.Button;
+
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
+import java.net.URISyntaxException;
+
+
+public class SplashActivity extends ActionBarActivity {
+
+    private static final String TAG_NAME = "SplashActivity";
+    private Socket socket;
+    private Button playBtt;
+
+    private Button pauseBtt;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
+
+        try {
+            socket = IO.socket("http://192.168.0.100:8006");
+            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    Log.i(TAG_NAME, "connected");
+
+                }
+            });
+
+            socket.connect();
+
+            playBtt = (Button) findViewById(R.id.playBtt);
+            playBtt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    socket.emit("play");
+                }
+            });
+
+            pauseBtt = (Button) findViewById(R.id.pauseBtt);
+            pauseBtt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    socket.emit("pause");
+                }
+            });
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.splash, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+}
