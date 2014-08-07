@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -20,14 +21,22 @@ public class SplashActivity extends ActionBarActivity {
 
     private static final String TAG_NAME = "SplashActivity";
     private Socket socket;
-    private Button playBtt;
-
-    private Button pauseBtt;
+    private ImageButton playBtt, pauseBtt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        playBtt = (ImageButton) findViewById(R.id.playBtt);
+        pauseBtt = (ImageButton) findViewById(R.id.pauseBtt);
+        pauseBtt.setVisibility(View.INVISIBLE);
+
+        getSupportActionBar().setTitle(getResources().getString(R.string.title));
+
+    }
+
+    public void init() {
 
         try {
             socket = IO.socket("http://192.168.0.100:8006");
@@ -41,7 +50,7 @@ public class SplashActivity extends ActionBarActivity {
 
             socket.connect();
 
-            playBtt = (Button) findViewById(R.id.playBtt);
+
             playBtt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -49,7 +58,7 @@ public class SplashActivity extends ActionBarActivity {
                 }
             });
 
-            pauseBtt = (Button) findViewById(R.id.pauseBtt);
+
             pauseBtt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -60,9 +69,7 @@ public class SplashActivity extends ActionBarActivity {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
