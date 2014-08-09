@@ -1,4 +1,4 @@
-package com.urucas.popcorntimerc;
+package com.urucas.popcorntimerc.activities;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.widget.ImageButton;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.urucas.popcorntimerc.R;
+import com.urucas.popcorntimerc.utils.Utils;
 
 import java.net.URISyntaxException;
 
@@ -22,6 +24,8 @@ public class SplashActivity extends ActionBarActivity {
     private static final String TAG_NAME = "SplashActivity";
     private Socket socket;
     private ImageButton playBtt, pauseBtt;
+    private String intra;
+    private static String port = "8006";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +34,10 @@ public class SplashActivity extends ActionBarActivity {
 
         playBtt = (ImageButton) findViewById(R.id.playBtt);
         pauseBtt = (ImageButton) findViewById(R.id.pauseBtt);
-        pauseBtt.setVisibility(View.INVISIBLE);
 
         getSupportActionBar().setTitle(getResources().getString(R.string.title));
 
+        init();
     }
 
     public void init() {
@@ -44,12 +48,10 @@ public class SplashActivity extends ActionBarActivity {
                 @Override
                 public void call(Object... args) {
                     Log.i(TAG_NAME, "connected");
-
                 }
             });
 
             socket.connect();
-
 
             playBtt.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -57,7 +59,6 @@ public class SplashActivity extends ActionBarActivity {
                     socket.emit("play");
                 }
             });
-
 
             pauseBtt.setOnClickListener(new View.OnClickListener() {
                 @Override
