@@ -17,9 +17,10 @@
         android:src="@android:drawable/ic_media_play"
         android:id="@+id/playBtt"
         android:scaleType="centerCrop"
-        android:layout_centerVertical="true"
         android:background="@null"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/button"
+        android:layout_toStartOf="@+id/button" />
 
     <ImageButton
         android:layout_width="70dp"
@@ -27,8 +28,18 @@
         android:src="@android:drawable/ic_media_pause"
         android:id="@+id/pauseBtt"
         android:scaleType="centerCrop"
-        android:layout_centerVertical="true"
         android:background="@null"
+        android:layout_toEndOf="@+id/button"
+        android:layout_alignTop="@+id/playBtt"
+        android:layout_toRightOf="@+id/button" />
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:text="New Button"
+        android:visibility="invisible"
+        android:id="@+id/button"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
 
