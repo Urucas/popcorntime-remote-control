@@ -1,15 +1,13 @@
 package com.urucas.popcorntimerc.activities;
 
-import android.os.StrictMode;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -20,9 +18,8 @@ import com.github.nkzawa.socketio.client.Socket;
 import com.urucas.popcorntimerc.R;
 import com.urucas.popcorntimerc.utils.Utils;
 
-import java.net.InetAddress;
-import java.net.URISyntaxException;
-import java.net.UnknownHostException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -37,6 +34,7 @@ public class SplashActivity extends ActionBarActivity {
     private Socket socket;
     private HashMap<Socket, String> socketes = new HashMap<Socket, String>();
     private HashMap<String, Socket> connectedSockets = new HashMap<String, Socket>();
+    private HashMap<String, String> connectedSocketsName = new HashMap<String, String>();
     private Spinner socketsSpinner;
 
     @Override
@@ -51,6 +49,17 @@ public class SplashActivity extends ActionBarActivity {
         pauseBtt.setVisibility(View.INVISIBLE);
 
         socketsSpinner = (Spinner) findViewById(R.id.socketsSpinner);
+        socketsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectSocket((String) parent.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         refreshSpinner();
 
         getSupportActionBar().setTitle(getResources().getString(R.string.title));
@@ -60,6 +69,39 @@ public class SplashActivity extends ActionBarActivity {
 
         // search for possible sockets
         search4sockets();
+    }
+
+    private void selectSocket(String localname) {
+        if(localname == null) return;
+
+        String socketip = connectedSocketsName.get(localname);
+        socket = connectedSockets.get(socketip);
+        if(socket == null) return;
+
+        playBtt.setVisibility(View.VISIBLE);
+        playBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                socket.emit("play", new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                    }
+                });
+            }
+        });
+
+        pauseBtt.setVisibility(View.VISIBLE);
+        pauseBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                socket.emit("pause", new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                    }
+                });
+            }
+        });
+
     }
 
     private void search4sockets() {
@@ -86,12 +128,33 @@ public class SplashActivity extends ActionBarActivity {
             socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            sockectConnected(socketes.get(socket), socket);
-                        }
-                    });
+                    Log.i(TAG_NAME, "socket connected");
+                }
+            });
+            socket.on("jalou", new Emitter.Listener(){
+                @Override
+                public void call(Object... args) {
+                    String localname = null;
+                    try {
+                        JSONObject json = (JSONObject)args[0];
+                        localname = json.getString("name");
+
+                    }catch(Exception e){
+                        socket.disconnect();
+                        socket.close();
+                        socket.off();
+                        socketes.remove(socket);
+                        return;
+                    }
+                    if(localname != null) {
+                        final String finalLocalname = localname;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                sockectConnected(socketes.get(socket), socket, finalLocalname);
+                            }
+                        });
+                    }
                 }
             });
             socket.on(Socket.EVENT_ERROR, new Emitter.Listener(){
@@ -112,8 +175,9 @@ public class SplashActivity extends ActionBarActivity {
         return null;
     }
 
-    private void sockectConnected(String ip, Socket socket) {
+    private void sockectConnected(String ip, Socket socket, String localname) {
         if(socket == null) return;
+        connectedSocketsName.put(localname, ip);
         connectedSockets.put(ip, socket);
         refreshSpinner();
     }
@@ -126,14 +190,22 @@ public class SplashActivity extends ActionBarActivity {
         return list;
     }
 
+    private ArrayList<String> getConnectdSocketsName() {
+        ArrayList<String> list = new ArrayList<String>();
+        for(String ip: connectedSocketsName.keySet()){
+            list.add(ip);
+        }
+        return list;
+    }
+
     private void refreshSpinner() {
-        ArrayList<String> socketslist = getConnectedSocketes();
+        ArrayList<String> socketslist = getConnectdSocketsName();
         if(socketslist.size() == 0){
             socketslist.add(getResources().getString(R.string.nosockets));
         }
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_spinner_item, socketslist);
+                this, R.layout.spinner_item, socketslist);
 
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         socketsSpinner.setAdapter(spinnerArrayAdapter);
