@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -66,8 +67,7 @@ public abstract class Utils {
                         String sAddr = addr.getHostAddress().toUpperCase();
                         boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
                         if (useIPv4) {
-                            if (isIPv4)
-                                return sAddr;
+                            if (isIPv4) return sAddr;
                         } else {
                             if (!isIPv4) {
                                 int delim = sAddr.indexOf('%'); // drop ip6 port suffix
@@ -151,6 +151,14 @@ public abstract class Utils {
 
         return false;
 	}
+
+    public static boolean isWIFIConnected(Context context) {
+        ConnectivityManager conMgr = (ConnectivityManager) context.getSystemService (Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (mWifi != null && mWifi.isConnected()) return true;
+
+        return false;
+    }
 
 	public static String capitalize(String s) {
 	    if (s!=null && s.length() > 0) {
