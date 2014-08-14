@@ -6,5 +6,6 @@
     <string name="refresh">Refresh</string>
     <string name="noconnection">No connection available</string>
     <string name="nosockets">No sockets available</string>
+    <string name="playernotfound">No movie is playing!</string>
 
 </resources>

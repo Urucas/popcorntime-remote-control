@@ -157,6 +157,28 @@ public class SplashActivity extends ActionBarActivity {
                     }
                 }
             });
+            socket.on("play error", new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Utils.Toast(SplashActivity.this, R.string.playernotfound);
+                        }
+                    });
+                }
+            });
+            socket.on("pause error", new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Utils.Toast(SplashActivity.this, R.string.playernotfound);
+                        }
+                    });
+                }
+            });
             socket.on(Socket.EVENT_ERROR, new Emitter.Listener(){
                 @Override
                 public void call(Object... args) {
@@ -166,6 +188,7 @@ public class SplashActivity extends ActionBarActivity {
                     socketes.remove(socket);
                 }
             });
+
             socket.connect();
             return socket;
 
