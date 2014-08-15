@@ -66,10 +66,9 @@ public class SplashActivity extends ActionBarActivity {
 
         // get current IP address
         myip = Utils.getIPAddress(true);
-        Log.i("myip", myip);
 
         // search for possible sockets
-        // search4sockets();
+        search4sockets();
     }
 
     private void selectSocket(String localname) {
