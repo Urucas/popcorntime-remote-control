@@ -66,9 +66,10 @@ public class SplashActivity extends ActionBarActivity {
 
         // get current IP address
         myip = Utils.getIPAddress(true);
+        Log.i("myip", myip);
 
         // search for possible sockets
-        search4sockets();
+        // search4sockets();
     }
 
     private void selectSocket(String localname) {
@@ -110,8 +111,14 @@ public class SplashActivity extends ActionBarActivity {
             Utils.Toast(SplashActivity.this, R.string.noconnection, Toast.LENGTH_SHORT);
             return;
         }
+
+        // set local ip search based on the mobile ip assigned
+        String localip = "http://192.168." +
+                myip.split("\\.")[2]
+                +".";
+
         for(int i = 0; i<256; i++) {
-            String ip = "http://192.168.0." + String.valueOf(i);
+            String ip = localip + String.valueOf(i);
             String socketip = ip + ":"+port;
             if(ip.equals(myip)) continue;
             if(connectedSockets.get(socket)!=null) continue;
@@ -120,6 +127,7 @@ public class SplashActivity extends ActionBarActivity {
             Socket socket = createPossibleSocket(socketip);
             if(socket != null) socketes.put(socket, socketip);
         }
+
     }
 
     private Socket createPossibleSocket(String socketip) {
