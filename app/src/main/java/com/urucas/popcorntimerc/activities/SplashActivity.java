@@ -1,8 +1,12 @@
 package com.urucas.popcorntimerc.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -122,11 +126,44 @@ public class SplashActivity extends ActionBarActivity {
             if(ip.equals(myip)) continue;
             if(connectedSockets.get(socket)!=null) continue;
 
-            Log.i(TAG_NAME, socketip);
             Socket socket = createPossibleSocket(socketip);
             if(socket != null) socketes.put(socket, socketip);
         }
 
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int action = event.getAction();
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                if (action == KeyEvent.ACTION_DOWN) {
+                    if(socket != null) {
+                        socket.emit("volume up", new Emitter.Listener() {
+                            @Override
+                            public void call(Object... args) {
+
+                            }
+                        });
+                    }
+                }
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                if (action == KeyEvent.ACTION_DOWN) {
+                    if(socket != null) {
+                        socket.emit("volume down", new Emitter.Listener() {
+                            @Override
+                            public void call(Object... args) {
+
+                            }
+                        });
+                    }
+                }
+                return true;
+            default:
+                return super.dispatchKeyEvent(event);
+        }
     }
 
     private Socket createPossibleSocket(String socketip) {
