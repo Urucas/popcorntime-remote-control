@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ public class SplashActivity extends ActionBarActivity {
     private HashMap<String, Socket> connectedSockets = new HashMap<String, Socket>();
     private HashMap<String, String> connectedSocketsName = new HashMap<String, String>();
     private Spinner socketsSpinner;
+    private Button fullscreenBtt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,9 @@ public class SplashActivity extends ActionBarActivity {
 
         pauseBtt = (ImageButton) findViewById(R.id.pauseBtt);
         pauseBtt.setVisibility(View.INVISIBLE);
+
+        fullscreenBtt = (Button) findViewById(R.id.fullscreenBtt);
+        fullscreenBtt.setVisibility(View.INVISIBLE);
 
         socketsSpinner = (Spinner) findViewById(R.id.socketsSpinner);
         socketsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -106,6 +111,18 @@ public class SplashActivity extends ActionBarActivity {
             }
         });
 
+        fullscreenBtt.setVisibility(View.VISIBLE);
+        fullscreenBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                socket.emit("fullscreen", new Emitter.Listener(){
+                    @Override
+                    public void call(Object... args) {
+
+                    }
+                });
+            }
+        });
     }
 
     private void search4sockets() {
