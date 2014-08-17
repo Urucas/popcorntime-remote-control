@@ -61,5 +61,14 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/muteBtt"
+        android:src="@android:drawable/ic_lock_silent_mode"
+        android:background="@null"
+        android:layout_below="@+id/socketsSpinner"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>

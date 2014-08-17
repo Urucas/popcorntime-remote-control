@@ -1,8 +1,5 @@
 package com.urucas.popcorntimerc.activities;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -14,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -42,6 +40,7 @@ public class SplashActivity extends ActionBarActivity {
     private HashMap<String, String> connectedSocketsName = new HashMap<String, String>();
     private Spinner socketsSpinner;
     private Button fullscreenBtt;
+    private ImageButton muteBtt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +55,9 @@ public class SplashActivity extends ActionBarActivity {
 
         fullscreenBtt = (Button) findViewById(R.id.fullscreenBtt);
         fullscreenBtt.setVisibility(View.INVISIBLE);
+
+        muteBtt = (ImageButton) findViewById(R.id.muteBtt);
+        muteBtt.setVisibility(View.INVISIBLE);
 
         socketsSpinner = (Spinner) findViewById(R.id.socketsSpinner);
         socketsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -121,6 +123,14 @@ public class SplashActivity extends ActionBarActivity {
 
                     }
                 });
+            }
+        });
+
+        muteBtt.setVisibility(View.VISIBLE);
+        muteBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                socket.emit("mute");
             }
         });
     }
