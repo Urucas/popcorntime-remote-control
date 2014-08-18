@@ -9,15 +9,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.SeekBar;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.urucas.popcorntimerc.PopcornApplication;
 import com.urucas.popcorntimerc.R;
 import com.urucas.popcorntimerc.utils.Utils;
 
@@ -26,6 +27,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
+import com.urucas.popcorntimerc.model.Movie;
 
 public class SplashActivity extends ActionBarActivity {
 
@@ -39,8 +42,11 @@ public class SplashActivity extends ActionBarActivity {
     private HashMap<String, Socket> connectedSockets = new HashMap<String, Socket>();
     private HashMap<String, String> connectedSocketsName = new HashMap<String, String>();
     private Spinner socketsSpinner;
-    private Button fullscreenBtt;
+    private ImageButton fullscreenBtt;
     private ImageButton muteBtt;
+    private TextView movieTxt;
+    private Movie movie;
+    private ImageView poster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +54,13 @@ public class SplashActivity extends ActionBarActivity {
         setContentView(R.layout.activity_splash);
 
         playBtt = (ImageButton) findViewById(R.id.playBtt);
-        playBtt.setVisibility(View.INVISIBLE);
-
         pauseBtt = (ImageButton) findViewById(R.id.pauseBtt);
-        pauseBtt.setVisibility(View.INVISIBLE);
-
-        fullscreenBtt = (Button) findViewById(R.id.fullscreenBtt);
-        fullscreenBtt.setVisibility(View.INVISIBLE);
-
+        fullscreenBtt = (ImageButton) findViewById(R.id.fullscreenBtt);
         muteBtt = (ImageButton) findViewById(R.id.muteBtt);
-        muteBtt.setVisibility(View.INVISIBLE);
+        movieTxt = (TextView) findViewById(R.id.movieTitle);
+        poster = (ImageView) findViewById(R.id.poster);
+
+        hidePlayerButtons();
 
         socketsSpinner = (Spinner) findViewById(R.id.socketsSpinner);
         socketsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -92,22 +95,14 @@ public class SplashActivity extends ActionBarActivity {
         playBtt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                socket.emit("play", new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-                    }
-                });
+                socket.emit("play");
             }
         });
 
         pauseBtt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                socket.emit("pause", new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-                    }
-                });
+                socket.emit("pause");
             }
         });
 
@@ -115,12 +110,7 @@ public class SplashActivity extends ActionBarActivity {
         fullscreenBtt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                socket.emit("fullscreen", new Emitter.Listener(){
-                    @Override
-                    public void call(Object... args) {
-
-                    }
-                });
+                socket.emit("fullscreen");
             }
         });
 
@@ -134,12 +124,24 @@ public class SplashActivity extends ActionBarActivity {
         socket.on("player created", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showPlayerButtons();
-                    }
-                });
+
+                try {
+                    JSONObject json = (JSONObject) args[0];
+                    JSONObject jsonMovie = json.getJSONObject("movie");
+                    movie = new Movie();
+                    movie.setPoster(jsonMovie.getString("poster"));
+                    movie.setTitle(jsonMovie.getString("title"));
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showPlayerButtons();
+                        }
+                    });
+
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -161,6 +163,19 @@ public class SplashActivity extends ActionBarActivity {
         fullscreenBtt.setVisibility(View.VISIBLE);
         pauseBtt.setVisibility(View.VISIBLE);
         playBtt.setVisibility(View.VISIBLE);
+
+        movieTxt.setVisibility(View.VISIBLE);
+        movieTxt.setText(
+                getResources().getString(R.string.nowplaying) +
+                " " + movie.getTitle()
+        );
+
+        try {
+
+            PopcornApplication.getImageLoader().displayImage(movie.getPoster(), poster);
+
+        }catch(Exception e){}
+
     }
 
     private void hidePlayerButtons() {
@@ -168,6 +183,9 @@ public class SplashActivity extends ActionBarActivity {
         fullscreenBtt.setVisibility(View.INVISIBLE);
         pauseBtt.setVisibility(View.INVISIBLE);
         playBtt.setVisibility(View.INVISIBLE);
+        movieTxt.setVisibility(View.INVISIBLE);
+
+        poster.setImageResource(R.drawable.posterholder);
     }
 
     private void search4sockets() {
@@ -202,24 +220,14 @@ public class SplashActivity extends ActionBarActivity {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if (action == KeyEvent.ACTION_DOWN) {
                     if(socket != null) {
-                        socket.emit("volume up", new Emitter.Listener() {
-                            @Override
-                            public void call(Object... args) {
-
-                            }
-                        });
+                        socket.emit("volume up");
                     }
                 }
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 if (action == KeyEvent.ACTION_DOWN) {
                     if(socket != null) {
-                        socket.emit("volume down", new Emitter.Listener() {
-                            @Override
-                            public void call(Object... args) {
-
-                            }
-                        });
+                        socket.emit("volume down");
                     }
                 }
                 return true;

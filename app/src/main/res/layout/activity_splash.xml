@@ -7,9 +7,38 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:src="@drawable/posterholder"
+        android:scaleType="centerCrop"
+        android:id="@+id/poster"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#bb000000"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+    />
+
+    <!-- ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:src="@drawable/cover_placeholder"
         android:scaleType="centerCrop"
-        />
+        / -->
+
+    <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:id="@+id/socketsSpinner"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <ImageButton
         android:layout_width="70dp"
@@ -18,9 +47,8 @@
         android:id="@+id/playBtt"
         android:scaleType="centerCrop"
         android:background="@null"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/button"
-        android:layout_toStartOf="@+id/button" />
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/dummyBtt" />
 
     <ImageButton
         android:layout_width="70dp"
@@ -29,37 +57,22 @@
         android:id="@+id/pauseBtt"
         android:scaleType="centerCrop"
         android:background="@null"
-        android:layout_toEndOf="@+id/button"
-        android:layout_alignTop="@+id/playBtt"
-        android:layout_toRightOf="@+id/button" />
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/dummyBtt"
+        />
 
-    <Button
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:text="New Button"
-        android:visibility="invisible"
-        android:id="@+id/button"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
-    <Spinner
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-
-        android:id="@+id/socketsSpinner"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Fullscreen"
         android:background="@null"
+        android:src="@android:drawable/ic_menu_crop"
+        android:textColor="#ffffff"
         android:id="@+id/fullscreenBtt"
+        android:layout_margin="20dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -67,8 +80,32 @@
         android:id="@+id/muteBtt"
         android:src="@android:drawable/ic_lock_silent_mode"
         android:background="@null"
-        android:layout_below="@+id/socketsSpinner"
+        android:layout_margin="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+    />
+
+    <Button
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:text=""
+        android:id="@+id/dummyBtt"
+        android:background="@null"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Now Playing: Captain America"
+        android:textColor="#f6f6f6"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/movieTitle"
+        android:layout_above="@+id/muteBtt"
+        android:layout_alignLeft="@+id/muteBtt"
+        android:layout_alignStart="@+id/muteBtt" />
 
 </RelativeLayout>
