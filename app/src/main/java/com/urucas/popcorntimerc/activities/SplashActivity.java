@@ -89,7 +89,6 @@ public class SplashActivity extends ActionBarActivity {
         socket = connectedSockets.get(socketip);
         if(socket == null) return;
 
-        playBtt.setVisibility(View.VISIBLE);
         playBtt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +100,6 @@ public class SplashActivity extends ActionBarActivity {
             }
         });
 
-        pauseBtt.setVisibility(View.VISIBLE);
         pauseBtt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +111,7 @@ public class SplashActivity extends ActionBarActivity {
             }
         });
 
-        fullscreenBtt.setVisibility(View.VISIBLE);
+
         fullscreenBtt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,13 +124,50 @@ public class SplashActivity extends ActionBarActivity {
             }
         });
 
-        muteBtt.setVisibility(View.VISIBLE);
         muteBtt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 socket.emit("mute");
             }
         });
+
+        socket.on("player created", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showPlayerButtons();
+                    }
+                });
+            }
+        });
+
+        socket.on("player close", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        hidePlayerButtons();
+                    }
+                });
+            }
+        });
+    }
+
+    private void showPlayerButtons(){
+        muteBtt.setVisibility(View.VISIBLE);
+        fullscreenBtt.setVisibility(View.VISIBLE);
+        pauseBtt.setVisibility(View.VISIBLE);
+        playBtt.setVisibility(View.VISIBLE);
+    }
+
+    private void hidePlayerButtons() {
+        muteBtt.setVisibility(View.INVISIBLE);
+        fullscreenBtt.setVisibility(View.INVISIBLE);
+        pauseBtt.setVisibility(View.INVISIBLE);
+        playBtt.setVisibility(View.INVISIBLE);
     }
 
     private void search4sockets() {
