@@ -30,7 +30,8 @@
         android:textColor="#f6f6f6"
         android:textSize="18sp"
         android:layout_margin="12dp"
-        android:padding="12dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
         android:id="@+id/movieTitle"
         android:visibility="visible"
      />
@@ -51,7 +52,7 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="60dp"
-        android:background="#aa4D7AFF"
+        android:background="#dd4D7AFF"
         android:id="@+id/footerRect"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -78,12 +79,11 @@
         android:src="@drawable/volume_mute"
         android:background="@null"
         android:scaleType="fitXY"
-        android:layout_margin="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:visibility="visible"
-        />
+        android:layout_marginLeft="12dp"
+        android:layout_alignTop="@+id/dummyBtt"
+        android:layout_alignLeft="@+id/movieDesc"
+        android:layout_alignStart="@+id/movieDesc" />
 
 
     <ImageButton
@@ -94,12 +94,11 @@
         android:src="@drawable/fullscreen"
         android:textColor="#ffffff"
         android:id="@+id/fullscreenBtt"
-        android:layout_margin="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:visibility="visible"
-        />
+        android:layout_marginRight="12dp"
+        android:layout_alignTop="@+id/dummyBtt"
+        android:layout_alignRight="@+id/movieDesc"
+        android:layout_alignEnd="@+id/movieDesc" />
 
     <ImageButton
         android:layout_width="70dp"

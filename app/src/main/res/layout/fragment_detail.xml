@@ -30,7 +30,8 @@
         android:textColor="#f6f6f6"
         android:textSize="18sp"
         android:layout_margin="12dp"
-        android:padding="12dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
         android:id="@+id/movieTitle"
         android:visibility="visible"
      />
@@ -51,7 +52,7 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="60dp"
-        android:background="#aa4D7AFF"
+        android:background="#cc4D7AFF"
         android:id="@+id/footerRect"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"

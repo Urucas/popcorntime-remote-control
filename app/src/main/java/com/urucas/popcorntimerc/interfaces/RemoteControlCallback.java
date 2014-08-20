@@ -18,4 +18,6 @@ public interface RemoteControlCallback {
     public void onDownloading(Movie movie);
 
     public void onPlaying(Movie movie);
+
+    public void onPopCornDisconected(ArrayList<String> socketsName);
 }

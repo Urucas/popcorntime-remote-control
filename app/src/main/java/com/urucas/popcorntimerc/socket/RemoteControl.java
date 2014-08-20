@@ -118,7 +118,16 @@ public class RemoteControl {
             socket.on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
-                    Log.i(TAG_NAME, "socket disconnected");
+                    socket.disconnect();
+                    socket.close();
+                    socket.off();
+                    socketes.remove(socket);
+                    _activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            _callback.onPopCornDisconected(getConnectdSocketsName());
+                        }
+                    });
                 }
             });
 

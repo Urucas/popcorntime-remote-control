@@ -81,6 +81,11 @@ public class SplashActivity extends ActionBarActivity {
             public void onPlaying(Movie movie) {
                 showPlaying(movie);
             }
+
+            @Override
+            public void onPopCornDisconected(ArrayList<String> popcornApps) {
+                refreshSpinner(popcornApps);
+            }
         });
         remote.search4Popcorns();
     }
