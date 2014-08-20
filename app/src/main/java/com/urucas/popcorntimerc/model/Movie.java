@@ -6,7 +6,7 @@ package com.urucas.popcorntimerc.model;
 
 public class Movie {
 
-    private String title, poster;
+    private String title, poster, desc;
 
     public String getTitle() {
         return title;
@@ -22,5 +22,13 @@ public class Movie {
 
     public void setPoster(String poster) {
         this.poster = poster;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

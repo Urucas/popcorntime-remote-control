@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/circleRemote"
+        android:src="@drawable/circle_remote"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible"
+        />
+
+    <ImageButton
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="fitCenter"
+        android:id="@+id/enterBtt"
+        android:src="@drawable/circle"
+        android:background="@null"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+    />
+
+    <ImageButton
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/rightBtt"
+        android:src="@drawable/next_btt"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:layout_alignTop="@+id/enterBtt"
+        android:layout_toRightOf="@+id/enterBtt"
+        android:layout_toEndOf="@+id/enterBtt"
+        />
+
+    <ImageButton
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/upBtt"
+        android:src="@drawable/up_btt"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:layout_above="@+id/enterBtt"
+        android:layout_alignRight="@+id/enterBtt"
+        android:layout_alignEnd="@+id/enterBtt"
+        />
+
+    <ImageButton
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/downBtt"
+        android:src="@drawable/down_btt"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:layout_below="@+id/enterBtt"
+        android:layout_alignLeft="@+id/enterBtt"
+        android:layout_alignStart="@+id/enterBtt"
+        />
+
+    <ImageButton
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/leftBtt"
+        android:src="@drawable/prev_btt"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:layout_alignTop="@+id/enterBtt"
+        android:layout_toLeftOf="@+id/enterBtt"
+        android:layout_toStartOf="@+id/enterBtt"
+        />
+
+</RelativeLayout>

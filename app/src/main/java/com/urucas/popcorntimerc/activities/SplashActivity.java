@@ -2,260 +2,167 @@ package com.urucas.popcorntimerc.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.On;
-import com.github.nkzawa.socketio.client.Socket;
-import com.urucas.popcorntimerc.PopcornApplication;
 import com.urucas.popcorntimerc.R;
-import com.urucas.popcorntimerc.utils.Utils;
-
-import org.json.JSONObject;
+import com.urucas.popcorntimerc.fragments.ControlFragment;
+import com.urucas.popcorntimerc.fragments.DownloadingFragment;
+import com.urucas.popcorntimerc.fragments.MovieDetailFragment;
+import com.urucas.popcorntimerc.fragments.PlayingFragment;
+import com.urucas.popcorntimerc.interfaces.RemoteControlCallback;
+import com.urucas.popcorntimerc.interfaces.VolumeKeysCallback;
+import com.urucas.popcorntimerc.model.Movie;
+import com.urucas.popcorntimerc.socket.RemoteControl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
-
-import com.urucas.popcorntimerc.model.Movie;
 
 public class SplashActivity extends ActionBarActivity {
 
     private static final String TAG_NAME = "SplashActivity";
-    private ImageButton playBtt, pauseBtt;
-    private String myip;
-    private static String port = "8006";
 
-    private Socket socket;
-    private HashMap<Socket, String> socketes = new HashMap<Socket, String>();
-    private HashMap<String, Socket> connectedSockets = new HashMap<String, Socket>();
-    private HashMap<String, String> connectedSocketsName = new HashMap<String, String>();
     private Spinner socketsSpinner;
-    private ImageButton fullscreenBtt;
-    private ImageButton muteBtt;
-    private TextView movieTxt;
-    private Movie movie;
-    private ImageView poster;
-    private ImageButton rightBtt;
-    private ImageButton enterBtt;
-    private ImageButton leftBtt;
-    private ImageButton downBtt;
-    private ImageButton upBtt;
+    private static RemoteControl remote;
+    private ControlFragment controlFragment;
+    private MovieDetailFragment movieFragment;
+    private DownloadingFragment downloadingFragment;
+    private PlayingFragment playingFragment;
+
+    public static VolumeKeysCallback volumeCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        playBtt = (ImageButton) findViewById(R.id.playBtt);
-        pauseBtt = (ImageButton) findViewById(R.id.pauseBtt);
-        fullscreenBtt = (ImageButton) findViewById(R.id.fullscreenBtt);
-        muteBtt = (ImageButton) findViewById(R.id.muteBtt);
-        movieTxt = (TextView) findViewById(R.id.movieTitle);
-        poster = (ImageView) findViewById(R.id.poster);
+        getSupportActionBar().setTitle(getResources().getString(R.string.title));
 
-        rightBtt = (ImageButton) findViewById(R.id.rightBtt);
-        leftBtt = (ImageButton) findViewById(R.id.leftBtt);
-        downBtt = (ImageButton) findViewById(R.id.downBtt);
-        upBtt = (ImageButton) findViewById(R.id.upBtt);
-        enterBtt = (ImageButton) findViewById(R.id.enterBtt);
-
-        hidePlayerButtons();
+        clearVolumeKeys();
 
         socketsSpinner = (Spinner) findViewById(R.id.socketsSpinner);
         socketsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectSocket((String) parent.getItemAtPosition(position));
+                selectPopcorn((String) parent.getItemAtPosition(position));
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
-        refreshSpinner();
+        refreshSpinner(new ArrayList<String>());
 
-        getSupportActionBar().setTitle(getResources().getString(R.string.title));
+        remote = new RemoteControl(SplashActivity.this, new RemoteControlCallback() {
+            @Override
+            public void onPopcornFound(ArrayList<String> popcornApps) {
+                refreshSpinner(popcornApps);
+            }
 
-        // get current IP address
-        myip = Utils.getIPAddress(true);
+            @Override
+            public void onMovieDetail(Movie movie) {
+                showMovieDetail(movie);
+            }
 
-        // search for possible sockets
-        search4sockets();
+            @Override
+            public void onControlRequest() {
+                showControl();
+            }
+
+            @Override
+            public void onDownloading(Movie movie) {
+                showDownloading(movie);
+            }
+
+            @Override
+            public void onPlaying(Movie movie) {
+                showPlaying(movie);
+            }
+        });
+        remote.search4Popcorns();
     }
 
-    private void selectSocket(String localname) {
-        if(localname == null) return;
-
-        String socketip = connectedSocketsName.get(localname);
-        socket = connectedSockets.get(socketip);
-        if(socket == null) return;
-
-        playBtt.setOnClickListener(new View.OnClickListener() {
+    public static void clearVolumeKeys() {
+        volumeCallback = new VolumeKeysCallback(){
             @Override
-            public void onClick(View v) {
-                socket.emit("play");
-            }
-        });
+            public void onVolumeUp() { }
 
-        pauseBtt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                socket.emit("pause");
-            }
-        });
-
-        fullscreenBtt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                socket.emit("fullscreen");
-            }
-        });
-
-        muteBtt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                socket.emit("mute");
-            }
-        });
-
-        socket.on("player created", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-
-                try {
-                    JSONObject json = (JSONObject) args[0];
-                    JSONObject jsonMovie = json.getJSONObject("movie");
-                    movie = new Movie();
-                    movie.setPoster(jsonMovie.getString("poster"));
-                    movie.setTitle(jsonMovie.getString("title"));
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            showPlayerButtons();
-                        }
-                    });
-
-                }catch(Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        socket.on("player close", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        hidePlayerButtons();
-                    }
-                });
-            }
-        });
-
-        rightBtt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                socket.emit("move right");
-            }
-        });
-
-        leftBtt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                socket.emit("move left");
-            }
-        });
-
-        downBtt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                socket.emit("move down");
-            }
-        });
-
-        upBtt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                socket.emit("move up");
-            }
-        });
-
-        enterBtt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                socket.emit("press enter");
-            }
-        });
+            public void onVolumeDown() { }
+        };
     }
 
-    private void showPlayerButtons(){
-        muteBtt.setVisibility(View.VISIBLE);
-        fullscreenBtt.setVisibility(View.VISIBLE);
-        pauseBtt.setVisibility(View.VISIBLE);
-        playBtt.setVisibility(View.VISIBLE);
+    public static void setVolumeKeys(VolumeKeysCallback callback) {
+        volumeCallback = callback;
+    }
 
-        movieTxt.setVisibility(View.VISIBLE);
-        movieTxt.setText(
-                getResources().getString(R.string.nowplaying) +
-                " " + movie.getTitle()
-        );
+    public static RemoteControl getRemoteControl() {
+        return remote;
+    }
 
-        try {
+    public void showControl() {
 
-            PopcornApplication.getImageLoader().displayImage(movie.getPoster(), poster);
+        controlFragment = new ControlFragment();
 
-        }catch(Exception e){}
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame, controlFragment)
+                .commit();
 
     }
 
-    private void hidePlayerButtons() {
-        muteBtt.setVisibility(View.INVISIBLE);
-        fullscreenBtt.setVisibility(View.INVISIBLE);
-        pauseBtt.setVisibility(View.INVISIBLE);
-        playBtt.setVisibility(View.INVISIBLE);
-        movieTxt.setVisibility(View.INVISIBLE);
+    public void showMovieDetail(Movie movie) {
 
-        poster.setImageResource(R.drawable.posterholder);
+        movieFragment = new MovieDetailFragment();
+        movieFragment.setMovie(movie);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame, movieFragment)
+                .commit();
     }
 
-    private void search4sockets() {
+    public void showDownloading(Movie movie) {
 
-        if(!Utils.isWIFIConnected(SplashActivity.this)){
-            Utils.Toast(SplashActivity.this, R.string.noconnection, Toast.LENGTH_SHORT);
-            return;
+        downloadingFragment = new DownloadingFragment();
+        downloadingFragment.setMovie(movie);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame, downloadingFragment)
+                .commit();
+    }
+
+    public void showPlaying(Movie movie) {
+
+        playingFragment = new PlayingFragment();
+        playingFragment.setMovie(movie);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame, playingFragment)
+                .commit();
+    }
+
+    private void selectPopcorn(String localname) {
+        if(remote.selectPopcornApp(localname)) {
+           showControl();
+        }
+    }
+
+    private void refreshSpinner(ArrayList<String> popcornList) {
+        if(popcornList.size() == 0){
+            popcornList.add(getResources().getString(R.string.nopopcorns));
         }
 
-        // set local ip search based on the mobile ip assigned
-        String localip = "http://192.168." +
-                myip.split("\\.")[2]
-                +".";
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+                this, R.layout.spinner_item, popcornList);
 
-        for(int i = 0; i<256; i++) {
-            String ip = localip + String.valueOf(i);
-            String socketip = ip + ":"+port;
-            if(ip.equals(myip)) continue;
-            if(connectedSockets.get(socket)!=null) continue;
-
-            Socket socket = createPossibleSocket(socketip);
-            if(socket != null) socketes.put(socket, socketip);
-        }
-
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        socketsSpinner.setAdapter(spinnerArrayAdapter);
     }
 
     @Override
@@ -265,133 +172,17 @@ public class SplashActivity extends ActionBarActivity {
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if (action == KeyEvent.ACTION_DOWN) {
-                    if(socket != null) {
-                        socket.emit("volume up");
-                    }
+                    volumeCallback.onVolumeDown();
                 }
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 if (action == KeyEvent.ACTION_DOWN) {
-                    if(socket != null) {
-                        socket.emit("volume down");
-                    }
+                    volumeCallback.onVolumeUp();
                 }
                 return true;
             default:
                 return super.dispatchKeyEvent(event);
         }
-    }
-
-    private Socket createPossibleSocket(String socketip) {
-        try {
-            final Socket socket = IO.socket(socketip);
-            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    Log.i(TAG_NAME, "socket connected");
-                }
-            });
-            socket.on("jalou", new Emitter.Listener(){
-                @Override
-                public void call(Object... args) {
-                    String localname = null;
-                    try {
-                        JSONObject json = (JSONObject)args[0];
-                        localname = json.getString("name");
-
-                    }catch(Exception e){
-                        socket.disconnect();
-                        socket.close();
-                        socket.off();
-                        socketes.remove(socket);
-                        return;
-                    }
-                    if(localname != null) {
-                        final String finalLocalname = localname;
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                sockectConnected(socketes.get(socket), socket, finalLocalname);
-                            }
-                        });
-                    }
-                }
-            });
-            socket.on("play error", new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Utils.Toast(SplashActivity.this, R.string.playernotfound);
-                        }
-                    });
-                }
-            });
-            socket.on("pause error", new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Utils.Toast(SplashActivity.this, R.string.playernotfound);
-                        }
-                    });
-                }
-            });
-            socket.on(Socket.EVENT_ERROR, new Emitter.Listener(){
-                @Override
-                public void call(Object... args) {
-                    socket.disconnect();
-                    socket.close();
-                    socket.off();
-                    socketes.remove(socket);
-                }
-            });
-
-            socket.connect();
-            return socket;
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private void sockectConnected(String ip, Socket socket, String localname) {
-        if(socket == null) return;
-        connectedSocketsName.put(localname, ip);
-        connectedSockets.put(ip, socket);
-        refreshSpinner();
-    }
-
-    private ArrayList<String> getConnectedSocketes() {
-        ArrayList<String> list = new ArrayList<String>();
-        for(String ip: connectedSockets.keySet()){
-            list.add(ip);
-        }
-        return list;
-    }
-
-    private ArrayList<String> getConnectdSocketsName() {
-        ArrayList<String> list = new ArrayList<String>();
-        for(String ip: connectedSocketsName.keySet()){
-            list.add(ip);
-        }
-        return list;
-    }
-
-    private void refreshSpinner() {
-        ArrayList<String> socketslist = getConnectdSocketsName();
-        if(socketslist.size() == 0){
-            socketslist.add(getResources().getString(R.string.nosockets));
-        }
-
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
-                this, R.layout.spinner_item, socketslist);
-
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        socketsSpinner.setAdapter(spinnerArrayAdapter);
     }
 
     @Override
@@ -404,7 +195,7 @@ public class SplashActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.refresh){
-            search4sockets();
+            // search4sockets();
             return true;
         }
         return super.onOptionsItemSelected(item);

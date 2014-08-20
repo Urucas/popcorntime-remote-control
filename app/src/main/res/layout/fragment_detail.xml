@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/posterholder"
+        android:scaleType="centerCrop"
+        android:id="@+id/poster"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#66000000"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Captain America: The Winter soldier"
+        android:textColor="#f6f6f6"
+        android:textSize="18sp"
+        android:layout_margin="12dp"
+        android:padding="12dp"
+        android:id="@+id/movieTitle"
+        android:visibility="visible"
+     />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="After the cataclysmic events in New York with The Avengers, Steve Rogers, aka Captain America, living quietly in Washington, D.C. and trying to adjust to the modern world. But when a S.H.I.E.L.D. colleague comes under attack, Steve becomes embroiled in a web of intrigue that threatens to put the wor"
+        android:id="@+id/movieDesc"
+        android:textColor="#fff"
+        android:textSize="12sp"
+        android:visibility="visible"
+        android:layout_below="@+id/movieTitle"
+        android:layout_alignLeft="@+id/movieTitle"
+        android:layout_alignStart="@+id/movieTitle"
+        android:layout_alignRight="@+id/movieTitle" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:background="#aa4D7AFF"
+        android:id="@+id/footerRect"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:visibility="visible"
+        android:layout_alignTop="@+id/escBtt" />
+
+    <ImageButton
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/escBtt"
+        android:src="@drawable/circle_close_white"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:visibility="visible"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="12dp"
+        android:paddingTop="12dp"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/watchnow"
+        android:id="@+id/watchBtt"
+        android:background="#4D7AFF"
+        android:textColor="#ffffff"
+        android:padding="12dp"
+        android:textSize="16sp"
+        android:visibility="visible"
+        android:layout_below="@+id/movieDesc"
+        android:layout_alignLeft="@+id/movieDesc"
+        android:layout_alignStart="@+id/movieDesc"
+        android:layout_marginTop="50dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/watchtrailer"
+        android:background="#4D7AFF"
+        android:id="@+id/trailerBtt"
+        android:textColor="#ffffff"
+        android:padding="12dp"
+        android:textSize="16sp"
+        android:visibility="visible"
+        android:layout_alignTop="@+id/watchBtt"
+        android:layout_alignRight="@+id/movieDesc"
+        android:layout_alignEnd="@+id/movieDesc" />
+
+</RelativeLayout>
