@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.On;
 import com.github.nkzawa.socketio.client.Socket;
 import com.urucas.popcorntimerc.PopcornApplication;
 import com.urucas.popcorntimerc.R;
@@ -47,6 +48,11 @@ public class SplashActivity extends ActionBarActivity {
     private TextView movieTxt;
     private Movie movie;
     private ImageView poster;
+    private ImageButton rightBtt;
+    private ImageButton enterBtt;
+    private ImageButton leftBtt;
+    private ImageButton downBtt;
+    private ImageButton upBtt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,12 @@ public class SplashActivity extends ActionBarActivity {
         muteBtt = (ImageButton) findViewById(R.id.muteBtt);
         movieTxt = (TextView) findViewById(R.id.movieTitle);
         poster = (ImageView) findViewById(R.id.poster);
+
+        rightBtt = (ImageButton) findViewById(R.id.rightBtt);
+        leftBtt = (ImageButton) findViewById(R.id.leftBtt);
+        downBtt = (ImageButton) findViewById(R.id.downBtt);
+        upBtt = (ImageButton) findViewById(R.id.upBtt);
+        enterBtt = (ImageButton) findViewById(R.id.enterBtt);
 
         hidePlayerButtons();
 
@@ -105,7 +117,6 @@ public class SplashActivity extends ActionBarActivity {
                 socket.emit("pause");
             }
         });
-
 
         fullscreenBtt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,6 +165,41 @@ public class SplashActivity extends ActionBarActivity {
                         hidePlayerButtons();
                     }
                 });
+            }
+        });
+
+        rightBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                socket.emit("move right");
+            }
+        });
+
+        leftBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                socket.emit("move left");
+            }
+        });
+
+        downBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                socket.emit("move down");
+            }
+        });
+
+        upBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                socket.emit("move up");
+            }
+        });
+
+        enterBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                socket.emit("press enter");
             }
         });
     }
