@@ -80,10 +80,9 @@
         android:background="@null"
         android:scaleType="fitXY"
         android:visibility="visible"
-        android:layout_marginLeft="12dp"
-        android:layout_alignTop="@+id/dummyBtt"
-        android:layout_alignLeft="@+id/movieDesc"
-        android:layout_alignStart="@+id/movieDesc" />
+        android:layout_alignBottom="@+id/playBtt"
+        android:layout_marginLeft="16dp"
+         />
 
 
     <ImageButton
@@ -95,10 +94,9 @@
         android:textColor="#ffffff"
         android:id="@+id/fullscreenBtt"
         android:visibility="visible"
-        android:layout_marginRight="12dp"
-        android:layout_alignTop="@+id/dummyBtt"
-        android:layout_alignRight="@+id/movieDesc"
-        android:layout_alignEnd="@+id/movieDesc" />
+        android:layout_above="@+id/dummyBtt"
+        android:layout_alignRight="@+id/muteBtt"
+        android:layout_alignEnd="@+id/muteBtt" />
 
     <ImageButton
         android:layout_width="70dp"

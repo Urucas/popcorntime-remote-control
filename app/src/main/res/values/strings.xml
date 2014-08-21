@@ -4,11 +4,12 @@
     <string name="title">It\'s popcorn time</string>
     <string name="refresh">Refresh</string>
     <string name="noconnection">Wifi connection is not enabled!</string>
-    <string name="nopopcorns">No devices with Popcorn found!</string>
+    <string name="nopopcorns">No devices with Popcorn found</string>
     <string name="playernotfound">Mmm, please select a movie to play first!</string>
     <string name="nowplaying">Now playing: </string>
     <string name="watchtrailer">Watch Trailer </string>
     <string name="watchnow">Watch now </string>
     <string name="cancel">Cancel </string>
+    <string name="popcornappavailable">Popcorn Apps available</string>
 
 </resources>

@@ -1,18 +1,23 @@
 package com.urucas.popcorntimerc.activities;
 
+import android.app.ActionBar;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.urucas.popcorntimerc.R;
 import com.urucas.popcorntimerc.fragments.ControlFragment;
 import com.urucas.popcorntimerc.fragments.DownloadingFragment;
+import com.urucas.popcorntimerc.fragments.LeftMenuFragment;
 import com.urucas.popcorntimerc.fragments.MovieDetailFragment;
 import com.urucas.popcorntimerc.fragments.PlayingFragment;
 import com.urucas.popcorntimerc.interfaces.RemoteControlCallback;
@@ -22,11 +27,14 @@ import com.urucas.popcorntimerc.socket.RemoteControl;
 
 import java.util.ArrayList;
 
-public class SplashActivity extends ActionBarActivity {
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
+
+
+public class SplashActivity extends SlidingFragmentActivity{
 
     private static final String TAG_NAME = "SplashActivity";
 
-    private Spinner socketsSpinner;
     private static RemoteControl remote;
     private ControlFragment controlFragment;
     private MovieDetailFragment movieFragment;
@@ -34,32 +42,63 @@ public class SplashActivity extends ActionBarActivity {
     private PlayingFragment playingFragment;
 
     public static VolumeKeysCallback volumeCallback;
+    private SlidingMenu sm;
+    private LeftMenuFragment leftMenuFragment;
+    private ActionBar actionBar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+    public void onCreate(Bundle savedInstanceState) {
 
-        getSupportActionBar().setTitle(getResources().getString(R.string.title));
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_splash);
+        setBehindContentView(R.layout.frame_leftmenu);
+
+        sm = getSlidingMenu();
+        sm.setMode(SlidingMenu.LEFT);
+        sm.setShadowWidthRes(R.dimen.shadow_width);
+        sm.setShadowDrawable(R.drawable.shadow);
+        sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        sm.setFadeDegree(0.35f);
+        sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+
+        setSlidingActionBarEnabled(false);
+
+        leftMenuFragment = new LeftMenuFragment();
+        leftMenuFragment.setActivity(SplashActivity.this);
+
+        getSupportFragmentManager()
+            .beginTransaction()
+            .replace(R.id.frame_leftmenu, leftMenuFragment)
+            .commit();
 
         clearVolumeKeys();
 
-        socketsSpinner = (Spinner) findViewById(R.id.socketsSpinner);
-        socketsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectPopcorn((String) parent.getItemAtPosition(position));
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        refreshSpinner(new ArrayList<String>());
+        try {
+
+            actionBar = getActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setTitle("");
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            actionBar.setCustomView(R.layout.main_bar);
+
+            ImageButton menuBtt = (ImageButton) actionBar.getCustomView().findViewById(R.id.menuBtt);
+            menuBtt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toggle();
+                }
+            });
+
+        }catch(Exception e) {
+            Log.d(TAG_NAME, e.getMessage());
+            e.printStackTrace();
+        }
 
         remote = new RemoteControl(SplashActivity.this, new RemoteControlCallback() {
             @Override
             public void onPopcornFound(ArrayList<String> popcornApps) {
-                refreshSpinner(popcornApps);
+                leftMenuFragment.refreshSpinner(popcornApps);
             }
 
             @Override
@@ -84,10 +123,11 @@ public class SplashActivity extends ActionBarActivity {
 
             @Override
             public void onPopCornDisconected(ArrayList<String> popcornApps) {
-                refreshSpinner(popcornApps);
+                leftMenuFragment.refreshSpinner(popcornApps);
             }
         });
         remote.search4Popcorns();
+
     }
 
     public static void clearVolumeKeys() {
@@ -152,22 +192,12 @@ public class SplashActivity extends ActionBarActivity {
                 .commit();
     }
 
-    private void selectPopcorn(String localname) {
+    public void selectPopcorn(String localname) {
+
         if(remote.selectPopcornApp(localname)) {
            showControl();
         }
-    }
 
-    private void refreshSpinner(ArrayList<String> popcornList) {
-        if(popcornList.size() == 0){
-            popcornList.add(getResources().getString(R.string.nopopcorns));
-        }
-
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
-                this, R.layout.spinner_item, popcornList);
-
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        socketsSpinner.setAdapter(spinnerArrayAdapter);
     }
 
     @Override
@@ -190,19 +220,4 @@ public class SplashActivity extends ActionBarActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.splash, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.refresh){
-            // search4sockets();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
