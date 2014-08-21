@@ -195,7 +195,7 @@ public class SplashActivity extends SlidingFragmentActivity{
     public void selectPopcorn(String localname) {
 
         if(remote.selectPopcornApp(localname)) {
-           showControl();
+           // showControl();
         }
 
     }

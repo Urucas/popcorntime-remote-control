@@ -54,7 +54,7 @@ public abstract class Utils {
 
     /**
      * Get IP address from first non-localhost interface
-     * @param ipv4  true=return ipv4, false=return ipv6
+     * @param useIPv4 true=return ipv4, false=return ipv6
      * @return  address or empty string
      */
     public static String getIPAddress(boolean useIPv4) {
@@ -166,6 +166,16 @@ public abstract class Utils {
 	    }
 	    else return s;
 	}
+
+    public static String getDeviceName() {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        if (model.startsWith(manufacturer)) {
+            return Utils.capitalize(model);
+        } else {
+            return Utils.capitalize(manufacturer) + " " + model;
+        }
+    }
 
 	public static String capitalize(String s, boolean allWords) {
 		String[] words = s.split("\\s+");
