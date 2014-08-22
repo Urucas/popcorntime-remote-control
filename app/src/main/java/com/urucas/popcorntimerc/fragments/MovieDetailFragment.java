@@ -27,6 +27,7 @@ public class MovieDetailFragment extends android.support.v4.app.Fragment {
     private Button watchBtt;
     private TextView movieTitle, movieDesc;
     private ImageView poster;
+    private Button trailerBtt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +53,13 @@ public class MovieDetailFragment extends android.support.v4.app.Fragment {
             }
         });
 
+        trailerBtt = (Button) view.findViewById(R.id.trailerBtt);
+        trailerBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SplashActivity.getRemoteControl().playTrailer();
+            }
+        });
 
         movieTitle = (TextView) view.findViewById(R.id.movieTitle);
         movieTitle.setText(_movie.getTitle());

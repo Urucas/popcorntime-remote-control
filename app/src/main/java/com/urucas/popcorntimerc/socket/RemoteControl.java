@@ -303,4 +303,9 @@ public class RemoteControl {
     public void volumeDown() {
         socket.emit("volume down");
     }
+
+    public void playTrailer() {
+        socket.emit("play trailer");
+    }
+
 }
