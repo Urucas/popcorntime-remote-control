@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
+import com.urucas.popcorntimerc.PopcornApplication;
 import com.urucas.popcorntimerc.R;
 import com.urucas.popcorntimerc.fragments.ControlFragment;
 import com.urucas.popcorntimerc.fragments.DownloadingFragment;
@@ -87,6 +88,7 @@ public class SplashActivity extends SlidingFragmentActivity{
             e.printStackTrace();
         }
 
+        /*
         remote = new RemoteControl(SplashActivity.this, new RemoteControlCallback() {
             @Override
             public void onPopcornFound(ArrayList<String> popcornApps) {
@@ -119,7 +121,13 @@ public class SplashActivity extends SlidingFragmentActivity{
             }
         });
         // remote.search4Popcorns();
-
+        */
+        remote = new RemoteControl(
+                PopcornApplication.getSetting(PopcornApplication.PT_IP),
+                PopcornApplication.getSetting(PopcornApplication.PT_PORT),
+                PopcornApplication.getSetting(PopcornApplication.PT_USER),
+                PopcornApplication.getSetting(PopcornApplication.PT_PASS)
+        );
         showControl();
     }
 

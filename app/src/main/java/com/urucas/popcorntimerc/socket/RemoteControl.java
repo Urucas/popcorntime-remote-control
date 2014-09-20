@@ -48,7 +48,7 @@ public class RemoteControl {
 
     private JSONRPC2Session getJsonRPCSession() throws MalformedURLException {
         if(_jsonRPCSession == null) {
-            _jsonRPCSession = new JSONRPC2Session(new URL(_ip + ":" + _port));
+            _jsonRPCSession = new JSONRPC2Session(new URL("http://" + _ip + ":" + _port));
 
             BasicAuthenticator auth = new BasicAuthenticator();
             auth.setCredentials(_user, _pass);
@@ -58,19 +58,43 @@ public class RemoteControl {
         return _jsonRPCSession;
     }
 
-    private class JSONRPCTask extends AsyncTask<String, Void, JSONObject> {
+    private static int requestID = 1;
+    private class JSONRPCTask extends AsyncTask<String, String, JSONRPC2Response> {
 
+        private Map<String, Object> params;
         private JSONRPC2Session session;
 
-        public JSONRPCTask(JSONRPC2Session session){
+        public JSONRPCTask(JSONRPC2Session session) {
             this.session = session;
         }
 
-        @Override
-        protected JSONObject doInBackground(String... params) {
-
-            return null;
+        public JSONRPCTask(JSONRPC2Session session, Map<String, Object> params){
+            this.session = session;
+            this.params  = params;
         }
+
+        @Override
+        protected JSONRPC2Response doInBackground(String... params1) {
+            if(params == null) {
+                params = new HashMap<String, Object>();
+            }
+            String method = params1[0];
+
+            session.getOptions().setRequestContentType("application/json");
+            JSONRPC2Request request = new JSONRPC2Request(method, params, requestID);
+            JSONRPC2Response response = null;
+
+            try {
+                response = session.send(request);
+                Log.i("response", response.toString());
+
+            } catch (JSONRPC2SessionException e) {
+                e.printStackTrace();
+            }
+            requestID++;
+            return response;
+        }
+
     }
 
     private class BasicAuthenticator implements ConnectionConfigurator {
@@ -92,29 +116,7 @@ public class RemoteControl {
         }
     }
 
-    private static int requestID = 1;
 
-    private JSONRPC2Response sendRequest(JSONRPC2Session mSession, String method, Map<String, Object> params) {
-        if(params == null) {
-            params = new HashMap<String, Object>();
-        }
-        mSession.getOptions().setRequestContentType("application/json");
-        JSONRPC2Request request = new JSONRPC2Request(method, params, requestID);
-
-        // Send request
-        JSONRPC2Response response = null;
-
-        try {
-            response = mSession.send(request);
-            Log.i("response", response.toString());
-
-        } catch (JSONRPC2SessionException e) {
-            e.printStackTrace();
-        }
-        requestID++;
-
-        return response;
-    }
 
     /*
     public void search4Popcorns() {
@@ -171,7 +173,11 @@ public class RemoteControl {
      */
 
     private void emit(String event){
-
+        try {
+            new JSONRPCTask(getJsonRPCSession()).execute(event);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void play() {
@@ -183,7 +189,7 @@ public class RemoteControl {
     }
 
     public void fullscreen() {
-        this.emit("fullscreen");
+        this.emit("togglefullscreen");
     }
 
     public void mute() {
@@ -191,27 +197,27 @@ public class RemoteControl {
     }
 
     public void escape() {
-        this.emit("press esc");
+        this.emit("back");
     }
 
     public void moveRight() {
-        this.emit("move right");
+        this.emit("right");
     }
 
     public void moveLeft() {
-        this.emit("move left");
+        this.emit("left");
     }
 
     public void moveUp() {
-        this.emit("move up");
+        this.emit("up");
     }
 
     public void moveDown() {
-        this.emit("move down");
+        this.emit("down");
     }
 
     public void enter() {
-        this.emit("press enter");
+        this.emit("enter");
     }
 
     public void startStreaming() {
