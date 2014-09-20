@@ -17,7 +17,7 @@
 
     <View
         android:layout_width="fill_parent"
-        android:layout_height="3dp"
+        android:layout_height="4dp"
         android:background="#fff"
         android:id="@+id/view"
         android:layout_below="@+id/textView1"
