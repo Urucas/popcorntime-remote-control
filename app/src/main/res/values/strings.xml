@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Remote control</string>
-    <string name="title">It\'s popcorn time</string>
+    <string name="title">It's movie time!</string>
     <string name="refresh">Refresh</string>
     <string name="noconnection">Wifi connection is not enabled!</string>
     <string name="nopopcorns">No devices with Popcorn found</string>
@@ -16,6 +16,9 @@
     <string name="ptport">HTTP API Port</string>
     <string name="ptuser">HTTP API Username</string>
     <string name="ptpass">HTTP API Password</string>
+
+    <string name="help">Help</string>
+    <string name="about">About</string>
 
     <string name="season">Season</string>
     <string name="connect">Connect</string>
