@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.urucas.popcorntimerc.R;
@@ -21,6 +22,8 @@ public class ControlFragment extends android.support.v4.app.Fragment {
     private ImageButton upBtt;
     private ImageButton downBtt;
     private ImageButton enterBtt;
+    private Button moviesBtt;
+    private Button seriesBtt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,6 +38,9 @@ public class ControlFragment extends android.support.v4.app.Fragment {
         upBtt = (ImageButton) view.findViewById(R.id.upBtt);
         downBtt = (ImageButton) view.findViewById(R.id.downBtt);
         enterBtt = (ImageButton) view.findViewById(R.id.enterBtt);
+
+        moviesBtt = (Button) view.findViewById(R.id.showMoviesBtt);
+        seriesBtt = (Button) view.findViewById(R.id.showSeriesBtt);
 
         leftBtt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +74,20 @@ public class ControlFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 SplashActivity.getRemoteControl().enter();
+            }
+        });
+
+        moviesBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SplashActivity.getRemoteControl().showMoviesList();
+            }
+        });
+
+        seriesBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SplashActivity.getRemoteControl().showSeriesList();
             }
         });
 

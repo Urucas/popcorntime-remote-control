@@ -59,6 +59,9 @@ public class RemoteControl {
     }
 
     private static int requestID = 1;
+
+
+
     private class JSONRPCTask extends AsyncTask<String, String, JSONRPC2Response> {
 
         private Map<String, Object> params;
@@ -218,6 +221,14 @@ public class RemoteControl {
 
     public void enter() {
         this.emit("enter");
+    }
+
+    public void showMoviesList() {
+        this.emit("movieslist");
+    }
+
+    public void showSeriesList() {
+        this.emit("showslist");
     }
 
     public void startStreaming() {
