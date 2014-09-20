@@ -237,9 +237,10 @@
         android:src="@drawable/volume_mute"
         android:background="@null"
         android:layout_alignBottom="@+id/footerRect"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="11dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="11dp"
+        android:id="@+id/muteBtt"
         android:layout_alignParentStart="true" />
 
     <ImageButton

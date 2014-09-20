@@ -139,7 +139,7 @@ public class RemoteControl {
     }
 
     public void mute() {
-        this.emit("mute");
+        this.emit("togglemute");
     }
 
     public void escape() {

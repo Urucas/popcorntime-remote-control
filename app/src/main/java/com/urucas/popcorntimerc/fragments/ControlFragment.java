@@ -31,6 +31,7 @@ public class ControlFragment extends android.support.v4.app.Fragment {
     private ImageButton favBtt;
     private ImageButton watchedBtt;
     private ImageButton playBtt;
+    private ImageButton muteBtt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,6 +59,7 @@ public class ControlFragment extends android.support.v4.app.Fragment {
         watchedBtt = (ImageButton) view.findViewById(R.id.watchedBtt);
 
         playBtt = (ImageButton) view.findViewById(R.id.playBtt);
+        muteBtt = (ImageButton) view.findViewById(R.id.muteBtt);
 
         leftBtt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,6 +156,13 @@ public class ControlFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 SplashActivity.getRemoteControl().toggleplay();
+            }
+        });
+
+        muteBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SplashActivity.getRemoteControl().mute();
             }
         });
 
