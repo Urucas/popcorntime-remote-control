@@ -108,8 +108,10 @@ public class RemoteControl {
                 callback.onError();
                 return;
             }
-            Log.i("a", response.getResult().toString());
-
+            if(response.getResult() == null) {
+                callback.onSuccess();
+                return;
+            }
             JSONObject object = (JSONObject) response.getResult();
             callback.onSuccess(object);
         }
@@ -149,8 +151,12 @@ public class RemoteControl {
                 }
 
                 @Override
-                public void onError() {
+                public void onSuccess() {
 
+                }
+
+                @Override
+                public void onError() {
                     _activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -160,7 +166,16 @@ public class RemoteControl {
                 }
 
             }).execute(event);
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void emit(String method, JSONRPCCallback callback) {
+        try {
+            new JSONRPCTask(getJsonRPCSession(), callback).execute(method);
+
+        }catch(Exception e){
             e.printStackTrace();
         }
     }
