@@ -49,6 +49,50 @@ public class RemoteControl {
         _port = port;
         _user = user;
         _pass = pass;
+
+    }
+
+    public void search4Sockets() {
+
+        String _myip = Utils.getIPAddress(true);
+
+        String localip = "http://192.168." +
+                _myip.split("\\.")[2]
+                +".";
+
+        for(int i = 0; i<256; i++) {
+            String ip = localip + String.valueOf(i);
+            final String socketip = ip + ":"+_port;
+
+            if(ip.equals(_myip)) continue;
+
+            try {
+                JSONRPC2Session testSession = new JSONRPC2Session(new URL(socketip));
+                BasicAuthenticator auth = new BasicAuthenticator();
+                auth.setCredentials(_user, _pass);
+                testSession.setConnectionConfigurator(auth);
+
+                new JSONRPCTask(testSession, new JSONRPCCallback(){
+
+                    @Override
+                    public void onSuccess(JSONObject jsonObject) {
+
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        Log.i("found", socketip);
+                    }
+
+                    @Override
+                    public void onError(int error) {
+                        Log.i("socket error", socketip);
+                    }
+
+                }).execute("ping");
+
+            } catch (Exception e) {}
+        }
     }
 
     public void setSettings(String host, String port, String user, String pass) throws MalformedURLException {
@@ -104,13 +148,16 @@ public class RemoteControl {
             String method = params1[0];
 
             session.getOptions().setRequestContentType("application/json");
+            session.getOptions().setConnectTimeout(100);
             JSONRPC2Request request = new JSONRPC2Request(method, params, requestID);
             JSONRPC2Response response = null;
 
             try {
                 response = session.send(request);
+                Log.i("response", response.toString());
 
             } catch (JSONRPC2SessionException e) {
+                // e.printStackTrace();
             }
             requestID++;
             return response;
