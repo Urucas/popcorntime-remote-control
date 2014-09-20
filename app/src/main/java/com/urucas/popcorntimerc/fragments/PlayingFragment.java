@@ -36,6 +36,7 @@ public class PlayingFragment extends android.support.v4.app.Fragment {
 
         view = inflater.inflate(R.layout.fragment_playing, container, false);
 
+        /*
         movieTitle = (TextView) view.findViewById(R.id.movieTitle);
         movieTitle.setText(_movie.getTitle());
 
@@ -94,7 +95,7 @@ public class PlayingFragment extends android.support.v4.app.Fragment {
                 SplashActivity.getRemoteControl().volumeDown();
             }
         });
-
+        */
         return view;
     }
 

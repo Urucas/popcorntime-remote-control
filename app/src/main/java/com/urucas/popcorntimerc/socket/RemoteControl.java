@@ -82,7 +82,7 @@ public class RemoteControl {
                 params = new HashMap<String, Object>();
             }
             String method = params1[0];
-            Log.i("method", method);
+            // Log.i("method", method);
             session.getOptions().setRequestContentType("application/json");
             JSONRPC2Request request = new JSONRPC2Request(method, params, requestID);
             JSONRPC2Response response = null;
@@ -119,58 +119,6 @@ public class RemoteControl {
         }
     }
 
-
-
-    /*
-    public void search4Popcorns() {
-
-        if(!Utils.isWIFIConnected(_activity)){
-            Utils.Toast(_activity, R.string.noconnection, Toast.LENGTH_SHORT);
-            return;
-        }
-
-        // set local ip search based on the mobile ip assigned
-        String localip = "http://192.168." +
-                _myip.split("\\.")[2]
-                +".";
-
-        for(int i = 0; i<256; i++) {
-            String ip = localip + String.valueOf(i);
-            String socketip = ip + ":"+port;
-            if(ip.equals(_myip)) continue;
-            if(connectedSockets.get(socket)!=null) continue;
-
-            Socket socket = createPossibleSocket(socketip);
-            if(socket != null) socketes.put(socket, socketip);
-        }
-    }
-
-    public boolean selectPopcornApp(String localname) {
-
-        String socketip = connectedSocketsName.get(localname);
-        socket = connectedSockets.get(socketip);
-        if(socket == null) return false;
-
-        return true;
-    }
-
-    private ArrayList<String> getConnectedSocketes() {
-        ArrayList<String> list = new ArrayList<String>();
-        for(String ip: connectedSockets.keySet()){
-            list.add(ip);
-        }
-        return list;
-    }
-
-    private ArrayList<String> getConnectdSocketsName() {
-        ArrayList<String> list = new ArrayList<String>();
-        for(String ip: connectedSocketsName.keySet()){
-            list.add(ip);
-        }
-        return list;
-    }
-    */
-
     /**
      * remote control events to emit
      */
@@ -181,14 +129,6 @@ public class RemoteControl {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-    }
-
-    public void play() {
-        this.emit("play");
-    }
-
-    public void pause() {
-        this.emit("pause");
     }
 
     public void fullscreen() {
@@ -232,14 +172,6 @@ public class RemoteControl {
         this.emit("showslist");
     }
 
-    public void startStreaming() {
-        this.emit("start streaming");
-    }
-
-    public void cancelStreaming() {
-        this.emit("cancel streaming");
-    }
-
     public void volumeUp() {
         this.emit("volume up");
     }
@@ -248,8 +180,11 @@ public class RemoteControl {
         this.emit("volume down");
     }
 
-    public void playTrailer() {
-        this.emit("play trailer");
+    public void seasonUp() {
+        this.emit("previousseason");
     }
 
+    public void seasonDown() {
+        this.emit("nextseason");
+    }
 }

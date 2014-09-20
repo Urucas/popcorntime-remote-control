@@ -17,6 +17,7 @@
     <string name="ptuser">HTTP API Username</string>
     <string name="ptpass">HTTP API Password</string>
 
+    <string name="season">Season</string>
     <string name="connect">Connect</string>
     <string name="movies">Movies</string>
     <string name="tvseries">TV Series</string>

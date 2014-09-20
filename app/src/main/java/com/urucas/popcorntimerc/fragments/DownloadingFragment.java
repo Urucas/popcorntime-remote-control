@@ -33,6 +33,7 @@ public class DownloadingFragment extends android.support.v4.app.Fragment {
 
         view = inflater.inflate(R.layout.fragment_downloading, container, false);
 
+        /*
         cancelBtt = (Button) view.findViewById(R.id.cancelBtt);
         cancelBtt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +56,7 @@ public class DownloadingFragment extends android.support.v4.app.Fragment {
             poster.setImageResource(R.drawable.posterholder);
         }
 
+        */
         return view;
     }
 

@@ -37,6 +37,7 @@ public class MovieDetailFragment extends android.support.v4.app.Fragment {
 
         view = inflater.inflate(R.layout.fragment_detail, container, false);
 
+        /*
         escBtt = (ImageButton) view.findViewById(R.id.escBtt);
         escBtt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +75,7 @@ public class MovieDetailFragment extends android.support.v4.app.Fragment {
         }catch(Exception e){
             poster.setImageResource(R.drawable.posterholder);
         }
-
+        */
         return view;
     }
 
