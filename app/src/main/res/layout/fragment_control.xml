@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0f00"
+    android:background="#f00"
     >
 
     <View
@@ -10,7 +10,7 @@
         android:layout_height="1dp"
         android:id="@+id/dividerTop">
 
-        </View>
+    </View>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -166,6 +166,27 @@
         android:layout_above="@+id/circleRemote"
         android:layout_toRightOf="@+id/rightBtt"
         android:layout_toEndOf="@+id/rightBtt" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/favourite_icon"
+        android:background="@null"
+        android:layout_alignTop="@+id/upBtt"
+        android:layout_toLeftOf="@+id/toggleFullscreenBtt"
+        android:layout_toStartOf="@+id/toggleFullscreenBtt"
+        android:id="@+id/favouriteBtt" />
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/watched_icon"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:layout_below="@+id/leftBtt"
+        android:layout_alignLeft="@+id/favouriteBtt"
+        android:layout_alignStart="@+id/favouriteBtt"
+        android:id="@+id/watchedBtt" />
 
     <ImageButton
         android:layout_width="wrap_content"
