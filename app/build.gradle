@@ -8,8 +8,8 @@ android {
         applicationId "com.urucas.popcorntimerc"
         minSdkVersion 11
         targetSdkVersion 20
-        versionCode 103
-        versionName "1.0.3"
+        versionCode 104
+        versionName "1.0.4"
     }
     buildTypes {
         release {
@@ -26,7 +26,6 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:19.+'
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.1'
     compile 'com.jeremyfeinstein.slidingmenu:library:1.3@aar'
     compile 'com.thetransactioncompany:jsonrpc2-client:1.14.4'
 }

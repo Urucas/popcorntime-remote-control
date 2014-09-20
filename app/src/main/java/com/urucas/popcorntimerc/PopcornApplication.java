@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.urucas.popcorntimerc.socket.RemoteControl;
 
 /**
@@ -15,7 +13,7 @@ import com.urucas.popcorntimerc.socket.RemoteControl;
 
 public class PopcornApplication extends Application {
 
-    private static ImageLoader _imageloader;
+
     private static PopcornApplication _instance;
     private static RemoteControl _remotecontrol;
     private static SharedPreferences _preferences;
@@ -74,15 +72,6 @@ public class PopcornApplication extends Application {
         if(key.equals(PT_PASS)) {
             pref.edit().putString(PT_PASS, value).commit();
         }
-    }
-
-    public static ImageLoader getImageLoader() {
-        if(_imageloader == null) {
-            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(_instance.getApplicationContext()).build();
-            ImageLoader.getInstance().init(config);
-            _imageloader = ImageLoader.getInstance();
-        }
-        return _imageloader;
     }
 
     public static PopcornApplication getInstance() {

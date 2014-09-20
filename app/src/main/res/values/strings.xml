@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Remote control</string>
-    <string name="title">It's movie time!</string>
+    <string name="title"><![CDATA[It\'s movie time!]]></string>
     <string name="refresh">Refresh</string>
     <string name="noconnection">Wifi connection is not enabled!</string>
     <string name="nopopcorns">No devices with Popcorn found</string>
@@ -22,6 +22,7 @@
 
     <string name="season">Season</string>
     <string name="connect">Connect</string>
+    <string name="edit">Edit</string>
     <string name="movies">Movies</string>
     <string name="tvseries">TV Series</string>
 
