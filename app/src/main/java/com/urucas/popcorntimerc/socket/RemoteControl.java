@@ -6,12 +6,15 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.thetransactioncompany.jsonrpc2.JSONRPC2Error;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2Request;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2Response;
 import com.thetransactioncompany.jsonrpc2.client.ConnectionConfigurator;
 import com.thetransactioncompany.jsonrpc2.client.JSONRPC2Session;
 import com.thetransactioncompany.jsonrpc2.client.JSONRPC2SessionException;
 import com.urucas.popcorntimerc.R;
+import com.urucas.popcorntimerc.activities.SplashActivity;
+import com.urucas.popcorntimerc.interfaces.JSONRPCCallback;
 import com.urucas.popcorntimerc.interfaces.RemoteControlCallback;
 import com.urucas.popcorntimerc.model.Movie;
 import com.urucas.popcorntimerc.utils.Utils;
@@ -38,8 +41,10 @@ public class RemoteControl {
     private static String _ip, _port, _user, _pass;
 
     private JSONRPC2Session _jsonRPCSession;
+    private Activity _activity;
 
-    public RemoteControl(String ip, String port, String user, String pass) {
+    public RemoteControl(Activity activity, String ip, String port, String user, String pass) {
+        _activity = activity;
         _ip = ip;
         _port = port;
         _user = user;
@@ -64,14 +69,17 @@ public class RemoteControl {
 
         private Map<String, Object> params;
         private JSONRPC2Session session;
+        private JSONRPCCallback callback;
 
-        public JSONRPCTask(JSONRPC2Session session) {
+        public JSONRPCTask(JSONRPC2Session session, JSONRPCCallback callback) {
             this.session = session;
+            this.callback = callback;
         }
 
-        public JSONRPCTask(JSONRPC2Session session, Map<String, Object> params){
+        public JSONRPCTask(JSONRPC2Session session, Map<String, Object> params, JSONRPCCallback callback){
             this.session = session;
             this.params  = params;
+            this.callback = callback;
         }
 
         @Override
@@ -80,20 +88,30 @@ public class RemoteControl {
                 params = new HashMap<String, Object>();
             }
             String method = params1[0];
-            // Log.i("method", method);
+
             session.getOptions().setRequestContentType("application/json");
             JSONRPC2Request request = new JSONRPC2Request(method, params, requestID);
             JSONRPC2Response response = null;
 
             try {
                 response = session.send(request);
-                Log.i("response", response.toString());
 
             } catch (JSONRPC2SessionException e) {
-                e.printStackTrace();
             }
             requestID++;
             return response;
+        }
+
+        @Override
+        protected void onPostExecute(JSONRPC2Response response) {
+            if(response == null || response.getError() != null) {
+                callback.onError();
+                return;
+            }
+            Log.i("a", response.getResult().toString());
+
+            JSONObject object = (JSONObject) response.getResult();
+            callback.onSuccess(object);
         }
 
     }
@@ -123,7 +141,25 @@ public class RemoteControl {
 
     private void emit(String event){
         try {
-            new JSONRPCTask(getJsonRPCSession()).execute(event);
+            new JSONRPCTask(getJsonRPCSession(), new JSONRPCCallback(){
+
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+
+                }
+
+                @Override
+                public void onError() {
+
+                    _activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((SplashActivity)_activity).connectionError();
+                        }
+                    });
+                }
+
+            }).execute(event);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

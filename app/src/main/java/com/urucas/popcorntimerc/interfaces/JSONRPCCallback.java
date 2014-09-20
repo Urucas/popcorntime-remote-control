@@ -8,4 +8,5 @@ import org.json.JSONObject;
 public interface JSONRPCCallback {
 
     public void onSuccess(JSONObject jsonObject);
+    public void onError();
 }

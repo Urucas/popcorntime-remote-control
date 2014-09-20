@@ -13,6 +13,7 @@ import com.urucas.popcorntimerc.R;
 import com.urucas.popcorntimerc.fragments.ControlFragment;
 import com.urucas.popcorntimerc.fragments.LeftMenuFragment;
 import com.urucas.popcorntimerc.socket.RemoteControl;
+import com.urucas.popcorntimerc.utils.Utils;
 
 
 public class SplashActivity extends SlidingFragmentActivity{
@@ -73,6 +74,7 @@ public class SplashActivity extends SlidingFragmentActivity{
         }
 
         remote = new RemoteControl(
+                SplashActivity.this,
                 PopcornApplication.getSetting(PopcornApplication.PT_IP),
                 PopcornApplication.getSetting(PopcornApplication.PT_PORT),
                 PopcornApplication.getSetting(PopcornApplication.PT_USER),
@@ -94,6 +96,10 @@ public class SplashActivity extends SlidingFragmentActivity{
                 .replace(R.id.frame, controlFragment)
                 .commit();
 
+    }
+
+    public void connectionError() {
+        Utils.Toast(SplashActivity.this, "Error conecting to Popcorn app");
     }
 
 }
