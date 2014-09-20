@@ -79,7 +79,7 @@ public class RemoteControl {
                 params = new HashMap<String, Object>();
             }
             String method = params1[0];
-
+            Log.i("method", method);
             session.getOptions().setRequestContentType("application/json");
             JSONRPC2Request request = new JSONRPC2Request(method, params, requestID);
             JSONRPC2Response response = null;
