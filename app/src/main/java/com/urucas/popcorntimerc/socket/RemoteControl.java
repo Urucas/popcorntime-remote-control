@@ -192,6 +192,7 @@ public class RemoteControl {
     }
 
     public void fullscreen() {
+        // toggle fullscreen only works on player view
         this.emit("togglefullscreen");
     }
 
