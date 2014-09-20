@@ -12,11 +12,12 @@
         android:padding="12dp"
         android:textSize="16sp"
         android:textColor="#fff"
+        android:layout_marginTop="4dp"
     />
 
     <View
         android:layout_width="fill_parent"
-        android:layout_height="1dp"
+        android:layout_height="3dp"
         android:background="#fff"
         android:id="@+id/view"
         android:layout_below="@+id/textView1"
