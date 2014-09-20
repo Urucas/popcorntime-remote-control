@@ -129,6 +129,10 @@ public class RemoteControl {
         }
     }
 
+    public void toggleplay() {
+        this.emit("toggleplaying");
+    }
+
     public void fullscreen() {
         // toggle fullscreen only works on player view
         this.emit("togglefullscreen");
@@ -168,14 +172,6 @@ public class RemoteControl {
 
     public void showSeriesList() {
         this.emit("showslist");
-    }
-
-    public void volumeUp() {
-        this.emit("volume up");
-    }
-
-    public void volumeDown() {
-        this.emit("volume down");
     }
 
     public void seasonUp() {
