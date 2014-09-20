@@ -25,6 +25,7 @@ public class ControlFragment extends android.support.v4.app.Fragment {
     private Button moviesBtt;
     private Button seriesBtt;
     private ImageButton backBtt;
+    private ImageButton fullBtt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +44,8 @@ public class ControlFragment extends android.support.v4.app.Fragment {
         moviesBtt = (Button) view.findViewById(R.id.showMoviesBtt);
         seriesBtt = (Button) view.findViewById(R.id.showSeriesBtt);
         backBtt = (ImageButton) view.findViewById(R.id.backBtt);
+
+        fullBtt = (ImageButton) view.findViewById(R.id.toggleFullscreenBtt);
 
         leftBtt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +100,13 @@ public class ControlFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 SplashActivity.getRemoteControl().escape();
+            }
+        });
+
+        fullBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SplashActivity.getRemoteControl().fullscreen();
             }
         });
 

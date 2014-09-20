@@ -146,11 +146,22 @@
         />
 
     <ImageButton
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/fullscreen"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:id="@+id/toggleFullscreenBtt"
+        android:layout_alignTop="@+id/backBtt"
+        android:layout_toLeftOf="@+id/circleRemote"
+        android:layout_toStartOf="@+id/circleRemote" />
+
+    <ImageButton
         android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:src="@drawable/return_icon"
         android:background="@null"
-        android:scaleType="fitCenter"
+        android:scaleType="fitStart"
         android:id="@+id/backBtt"
         android:layout_above="@+id/circleRemote"
         android:layout_toRightOf="@+id/rightBtt"
