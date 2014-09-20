@@ -5,7 +5,7 @@ android {
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        applicationId "com.urucas.popcorntimerc"
+        applicationId "com.urucas.ptremotecontrol"
         minSdkVersion 11
         targetSdkVersion 20
         versionCode 104

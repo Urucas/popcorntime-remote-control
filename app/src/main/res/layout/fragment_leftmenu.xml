@@ -127,6 +127,7 @@
             android:background="@null"
             android:textColor="#fff"
             android:textSize="14sp"
+            android:visibility="gone"
             />
 
         <Button
@@ -136,6 +137,7 @@
             android:background="@null"
             android:textColor="#fff"
             android:textSize="14sp"
+            android:visibility="gone"
             />
 
     </LinearLayout>
