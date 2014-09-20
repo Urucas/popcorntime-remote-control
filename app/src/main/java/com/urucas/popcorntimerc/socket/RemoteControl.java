@@ -38,22 +38,36 @@ public class RemoteControl {
 
     private static final String TAG_NAME = "RemoteControl";
 
-    private static String _ip, _port, _user, _pass;
+    private static String _host, _port, _user, _pass;
 
     private JSONRPC2Session _jsonRPCSession;
     private Activity _activity;
 
-    public RemoteControl(Activity activity, String ip, String port, String user, String pass) {
+    public RemoteControl(Activity activity, String host, String port, String user, String pass) {
         _activity = activity;
-        _ip = ip;
+        _host = host;
         _port = port;
         _user = user;
         _pass = pass;
     }
 
+    public void setSettings(String host, String port, String user, String pass) throws MalformedURLException {
+        _host = host;
+        _port = port;
+        _user = user;
+        _pass = pass;
+
+        _jsonRPCSession = new JSONRPC2Session(new URL("http://" + _host + ":" + _port));
+
+        BasicAuthenticator auth = new BasicAuthenticator();
+        auth.setCredentials(_user, _pass);
+
+        _jsonRPCSession.setConnectionConfigurator(auth);
+    }
+
     private JSONRPC2Session getJsonRPCSession() throws MalformedURLException {
         if(_jsonRPCSession == null) {
-            _jsonRPCSession = new JSONRPC2Session(new URL("http://" + _ip + ":" + _port));
+            _jsonRPCSession = new JSONRPC2Session(new URL("http://" + _host + ":" + _port));
 
             BasicAuthenticator auth = new BasicAuthenticator();
             auth.setCredentials(_user, _pass);
@@ -105,7 +119,7 @@ public class RemoteControl {
         @Override
         protected void onPostExecute(JSONRPC2Response response) {
             if(response == null || response.getError() != null) {
-                callback.onError();
+                callback.onError(R.string.connectiontesterror);
                 return;
             }
             if(response.getResult() == null) {
@@ -156,11 +170,11 @@ public class RemoteControl {
                 }
 
                 @Override
-                public void onError() {
+                public void onError(final int error) {
                     _activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ((SplashActivity)_activity).connectionError();
+                            ((SplashActivity)_activity).connectionError(error);
                         }
                     });
                 }
@@ -172,12 +186,20 @@ public class RemoteControl {
     }
 
     private void emit(String method, JSONRPCCallback callback) {
+        if(!Utils.isWIFIConnected(_activity)) {
+            callback.onError(R.string.noconnection);
+        }
+
         try {
             new JSONRPCTask(getJsonRPCSession(), callback).execute(method);
 
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void ping(JSONRPCCallback callback) {
+        this.emit("ping", callback);
     }
 
     public void toggleplay() {

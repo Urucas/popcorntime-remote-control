@@ -40,6 +40,24 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:text="@string/pthost"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#fff"
+            />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:id="@+id/ptHost"
+            android:enabled="true"
+            android:inputType="number"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:text="@string/ptport"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
@@ -51,7 +69,8 @@
             android:layout_height="wrap_content"
             android:textColor="#fff"
             android:id="@+id/ptPort"
-            android:enabled="false"
+            android:enabled="true"
+            android:inputType="number"
          />
 
         <TextView
@@ -68,7 +87,8 @@
             android:layout_height="wrap_content"
             android:textColor="#fff"
             android:id="@+id/ptUser"
-            android:enabled="false"
+            android:enabled="true"
+            android:inputType="textPersonName"
             />
 
         <TextView
@@ -85,7 +105,8 @@
             android:layout_height="wrap_content"
             android:textColor="#fff"
             android:id="@+id/ptPass"
-            android:enabled="false"
+            android:enabled="true"
+            android:inputType="textPersonName"
             />
 
         <Button
@@ -96,6 +117,7 @@
             android:textColor="#4D7AFF"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:id="@+id/connectBtt"
             />
 
         <Button

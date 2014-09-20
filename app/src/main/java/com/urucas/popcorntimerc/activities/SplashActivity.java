@@ -75,7 +75,7 @@ public class SplashActivity extends SlidingFragmentActivity{
 
         remote = new RemoteControl(
                 SplashActivity.this,
-                PopcornApplication.getSetting(PopcornApplication.PT_IP),
+                PopcornApplication.getSetting(PopcornApplication.PT_HOST),
                 PopcornApplication.getSetting(PopcornApplication.PT_PORT),
                 PopcornApplication.getSetting(PopcornApplication.PT_USER),
                 PopcornApplication.getSetting(PopcornApplication.PT_PASS)
@@ -98,8 +98,8 @@ public class SplashActivity extends SlidingFragmentActivity{
 
     }
 
-    public void connectionError() {
-        Utils.Toast(SplashActivity.this, "Error conecting to Popcorn app");
+    public void connectionError(int error) {
+        Utils.Toast(SplashActivity.this, error);
     }
 
 }

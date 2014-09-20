@@ -18,12 +18,12 @@ public class PopcornApplication extends Application {
     private static RemoteControl _remotecontrol;
     private static SharedPreferences _preferences;
 
-    public static String PT_IP = "pt-ip";
+    public static String PT_HOST = "pt-ip";
     public static String PT_PORT = "pt-port";
     public static String PT_USER = "pt-username";
     public static String PT_PASS = "pt-password";
 
-    private static String PT_IP_DEFAULT = "192.168.0.102";
+    private static String PT_HOST_DEFAULT = "192.168.0.102";
     private static String PT_PORT_DEFAULT = "8008";
     private static String PT_USER_DEFAULT = "popcorn";
     private static String PT_PASS_DEFAULT = "popcorn";
@@ -43,8 +43,8 @@ public class PopcornApplication extends Application {
     public static String getSetting(String key) {
 
         SharedPreferences pref = PopcornApplication.getPreferences();
-        if(key.equals(PT_IP)) {
-            return pref.getString(PT_IP, PT_IP_DEFAULT);
+        if(key.equals(PT_HOST)) {
+            return pref.getString(PT_HOST, PT_HOST_DEFAULT);
         }
         if(key.equals(PT_PORT)) {
             return pref.getString(PT_PORT, PT_PORT_DEFAULT);
@@ -60,8 +60,8 @@ public class PopcornApplication extends Application {
 
     public static void setSetting(String key, String value) {
         SharedPreferences pref = PopcornApplication.getPreferences();
-        if(key.equals(PT_IP)) {
-            pref.edit().putString(PT_IP, value).commit();
+        if(key.equals(PT_HOST)) {
+            pref.edit().putString(PT_HOST, value).commit();
         }
         if(key.equals(PT_PORT)) {
             pref.edit().putString(PT_PORT, value).commit();

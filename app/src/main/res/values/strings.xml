@@ -14,6 +14,7 @@
 
     <string name="ptsettings">PT Remote Control Settings</string>
     <string name="ptport">HTTP API Port</string>
+    <string name="pthost">HTTP API Host</string>
     <string name="ptuser">HTTP API Username</string>
     <string name="ptpass">HTTP API Password</string>
 
@@ -21,9 +22,13 @@
     <string name="about">About</string>
 
     <string name="season">Season</string>
-    <string name="connect">Connect</string>
+    <string name="connect">Test connection</string>
     <string name="edit">Edit</string>
     <string name="movies">Movies</string>
     <string name="tvseries">TV Series</string>
+
+    <string name="settingserror">Mmm, there was a problem update the connection settgins. Check that you enter a valid host!</string>
+    <string name="connectionworking">Hurray! The remote control is connect to your Popcorn app</string>
+    <string name="connectiontesterror">Sorry! The remote control is not connected to your popcorn app. Check the connection settings!</string>
 
 </resources>

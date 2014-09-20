@@ -1,6 +1,5 @@
 package com.urucas.popcorntimerc.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,21 +16,6 @@ import com.urucas.popcorntimerc.activities.SplashActivity;
 public class ControlFragment extends android.support.v4.app.Fragment {
 
     private View view;
-    private ImageButton leftBtt;
-    private ImageButton rigthBtt;
-    private ImageButton upBtt;
-    private ImageButton downBtt;
-    private ImageButton enterBtt;
-    private Button moviesBtt;
-    private Button seriesBtt;
-    private ImageButton backBtt;
-    private ImageButton fullBtt;
-    private ImageButton seasonUpBtt;
-    private ImageButton seasonDownBtt;
-    private ImageButton favBtt;
-    private ImageButton watchedBtt;
-    private ImageButton playBtt;
-    private ImageButton muteBtt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,25 +23,25 @@ public class ControlFragment extends android.support.v4.app.Fragment {
 
         view = inflater.inflate(R.layout.fragment_control, container, false);
 
-        leftBtt = (ImageButton) view.findViewById(R.id.leftBtt);
-        rigthBtt = (ImageButton) view.findViewById(R.id.rightBtt);
-        upBtt = (ImageButton) view.findViewById(R.id.upBtt);
-        downBtt = (ImageButton) view.findViewById(R.id.downBtt);
-        enterBtt = (ImageButton) view.findViewById(R.id.enterBtt);
+        ImageButton leftBtt = (ImageButton) view.findViewById(R.id.leftBtt);
+        ImageButton rigthBtt = (ImageButton) view.findViewById(R.id.rightBtt);
+        ImageButton upBtt = (ImageButton) view.findViewById(R.id.upBtt);
+        ImageButton downBtt = (ImageButton) view.findViewById(R.id.downBtt);
+        ImageButton enterBtt = (ImageButton) view.findViewById(R.id.enterBtt);
 
-        moviesBtt = (Button) view.findViewById(R.id.showMoviesBtt);
-        seriesBtt = (Button) view.findViewById(R.id.showSeriesBtt);
-        backBtt = (ImageButton) view.findViewById(R.id.backBtt);
+        Button moviesBtt = (Button) view.findViewById(R.id.showMoviesBtt);
+        Button seriesBtt = (Button) view.findViewById(R.id.showSeriesBtt);
+        ImageButton backBtt = (ImageButton) view.findViewById(R.id.backBtt);
 
-        fullBtt = (ImageButton) view.findViewById(R.id.toggleFullscreenBtt);
-        seasonUpBtt = (ImageButton) view.findViewById(R.id.seasonUpBtt);
-        seasonDownBtt = (ImageButton) view.findViewById(R.id.seasonDownBtt);
+        ImageButton fullBtt = (ImageButton) view.findViewById(R.id.toggleFullscreenBtt);
+        ImageButton seasonUpBtt = (ImageButton) view.findViewById(R.id.seasonUpBtt);
+        ImageButton seasonDownBtt = (ImageButton) view.findViewById(R.id.seasonDownBtt);
 
-        favBtt = (ImageButton) view.findViewById(R.id.favouriteBtt);
-        watchedBtt = (ImageButton) view.findViewById(R.id.watchedBtt);
+        ImageButton favBtt = (ImageButton) view.findViewById(R.id.favouriteBtt);
+        ImageButton watchedBtt = (ImageButton) view.findViewById(R.id.watchedBtt);
 
-        playBtt = (ImageButton) view.findViewById(R.id.playBtt);
-        muteBtt = (ImageButton) view.findViewById(R.id.muteBtt);
+        ImageButton playBtt = (ImageButton) view.findViewById(R.id.playBtt);
+        ImageButton muteBtt = (ImageButton) view.findViewById(R.id.muteBtt);
 
         leftBtt.setOnClickListener(new View.OnClickListener() {
             @Override
