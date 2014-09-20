@@ -36,7 +36,6 @@ public class ControlFragment extends android.support.v4.app.Fragment {
         downBtt = (ImageButton) view.findViewById(R.id.downBtt);
         enterBtt = (ImageButton) view.findViewById(R.id.enterBtt);
 
-
         leftBtt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

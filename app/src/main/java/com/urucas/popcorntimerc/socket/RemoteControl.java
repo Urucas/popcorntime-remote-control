@@ -1,12 +1,16 @@
 package com.urucas.popcorntimerc.socket;
 
 import android.app.Activity;
+import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
+import com.thetransactioncompany.jsonrpc2.JSONRPC2Request;
+import com.thetransactioncompany.jsonrpc2.JSONRPC2Response;
+import com.thetransactioncompany.jsonrpc2.client.ConnectionConfigurator;
+import com.thetransactioncompany.jsonrpc2.client.JSONRPC2Session;
+import com.thetransactioncompany.jsonrpc2.client.JSONRPC2SessionException;
 import com.urucas.popcorntimerc.R;
 import com.urucas.popcorntimerc.interfaces.RemoteControlCallback;
 import com.urucas.popcorntimerc.model.Movie;
@@ -14,8 +18,15 @@ import com.urucas.popcorntimerc.utils.Utils;
 
 import org.json.JSONObject;
 
+import java.net.Authenticator;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Urucas on 8/20/14.
@@ -23,26 +34,89 @@ import java.util.HashMap;
 public class RemoteControl {
 
     private static final String TAG_NAME = "RemoteControl";
-    private static String port = "8006";
-    private final RemoteControlCallback _callback;
-    private final Activity _activity;
 
-    private Socket socket;
-    private HashMap<Socket, String> socketes = new HashMap<Socket, String>();
-    private HashMap<String, Socket> connectedSockets = new HashMap<String, Socket>();
-    private HashMap<String, String> connectedSocketsName = new HashMap<String, String>();
+    private static String _ip, _port, _user, _pass;
 
-    private Movie movie;
+    private JSONRPC2Session _jsonRPCSession;
 
-    private String _myip;
-
-    public RemoteControl(Activity activity, RemoteControlCallback callback) {
-        super();
-        _activity = activity;
-        _callback = callback;
-        _myip = Utils.getIPAddress(true);
+    public RemoteControl(String ip, String port, String user, String pass) {
+        _ip = ip;
+        _port = port;
+        _user = user;
+        _pass = pass;
     }
 
+    private JSONRPC2Session getJsonRPCSession() throws MalformedURLException {
+        if(_jsonRPCSession == null) {
+            _jsonRPCSession = new JSONRPC2Session(new URL(_ip + ":" + _port));
+
+            BasicAuthenticator auth = new BasicAuthenticator();
+            auth.setCredentials(_user, _pass);
+
+            _jsonRPCSession.setConnectionConfigurator(auth);
+        }
+        return _jsonRPCSession;
+    }
+
+    private class JSONRPCTask extends AsyncTask<String, Void, JSONObject> {
+
+        private JSONRPC2Session session;
+
+        public JSONRPCTask(JSONRPC2Session session){
+            this.session = session;
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... params) {
+
+            return null;
+        }
+    }
+
+    private class BasicAuthenticator implements ConnectionConfigurator {
+
+        private String user;
+        private String pass;
+
+        public void setCredentials(String user, String pass) {
+            this.user = user;
+            this.pass = pass;
+        }
+
+        @Override
+        public void configure(HttpURLConnection connection) {
+
+            byte[] encodedBytes = Base64.encode((user + ":" + pass).getBytes(), Base64.DEFAULT);
+            // add custom HTTP header
+            connection.addRequestProperty("Authorization", "Basic "+ new String(encodedBytes));
+        }
+    }
+
+    private static int requestID = 1;
+
+    private JSONRPC2Response sendRequest(JSONRPC2Session mSession, String method, Map<String, Object> params) {
+        if(params == null) {
+            params = new HashMap<String, Object>();
+        }
+        mSession.getOptions().setRequestContentType("application/json");
+        JSONRPC2Request request = new JSONRPC2Request(method, params, requestID);
+
+        // Send request
+        JSONRPC2Response response = null;
+
+        try {
+            response = mSession.send(request);
+            Log.i("response", response.toString());
+
+        } catch (JSONRPC2SessionException e) {
+            e.printStackTrace();
+        }
+        requestID++;
+
+        return response;
+    }
+
+    /*
     public void search4Popcorns() {
 
         if(!Utils.isWIFIConnected(_activity)){
@@ -64,159 +138,6 @@ public class RemoteControl {
             Socket socket = createPossibleSocket(socketip);
             if(socket != null) socketes.put(socket, socketip);
         }
-    }
-
-    private Socket createPossibleSocket(String socketip) {
-        try {
-            final Socket socket = IO.socket(socketip);
-            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    Log.i(TAG_NAME, "socket connected");
-                }
-            });
-
-            socket.on("my name is", new Emitter.Listener(){
-                @Override
-                public void call(Object... args) {
-                    String localname = null;
-                    try {
-                        JSONObject json = (JSONObject)args[0];
-                        localname = json.getString("name");
-
-                    }catch(Exception e){
-                        socket.disconnect();
-                        socket.close();
-                        socket.off();
-                        socketes.remove(socket);
-                        return;
-                    }
-                    if(localname != null) {
-                        final String finalLocalname = localname;
-                        sockectConnected(socketes.get(socket), socket, finalLocalname);
-                        _activity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                _callback.onPopcornFound(getConnectdSocketsName());
-                            }
-                        });
-                    }
-                }
-            });
-
-            socket.on(Socket.EVENT_ERROR, new Emitter.Listener(){
-                @Override
-                public void call(Object... args) {
-                    socket.disconnect();
-                    socket.close();
-                    socket.off();
-                    socketes.remove(socket);
-
-                }
-            });
-
-            socket.on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    socket.disconnect();
-                    socket.close();
-                    socket.off();
-                    socketes.remove(socket);
-                    _activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            _callback.onPopCornDisconected(getConnectdSocketsName());
-                        }
-                    });
-                }
-            });
-
-            socket.connect();
-            return socket;
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private void sockectConnected(String ip, Socket socket, String localname) {
-
-        if(socket == null) return;
-        connectedSocketsName.put(localname, ip);
-        connectedSockets.put(ip, socket);
-
-        socket.on("show movie detail", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                JSONObject json = (JSONObject) args[0];
-                try {
-                    movie = new Movie();
-                    movie.setPoster(json.getString("poster"));
-                    movie.setTitle(json.getString("title"));
-                    movie.setDesc(json.getString("desc"));
-                    _activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            _callback.onMovieDetail(movie);
-                        }
-                    });
-
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        socket.on("show control", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                _activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        _callback.onControlRequest();
-                    }
-                });
-            }
-        });
-
-        socket.on("show downloading", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                JSONObject json = (JSONObject) args[0];
-                try {
-                    movie = new Movie();
-                    movie.setPoster(json.getString("poster"));
-                    movie.setTitle(json.getString("title"));
-                    movie.setDesc(json.getString("desc"));
-                    _activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            _callback.onDownloading(movie);
-                        }
-                    });
-                }catch(Exception e){}
-            }
-        });
-
-        socket.on("show playing", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                JSONObject json = (JSONObject) args[0];
-                try {
-                    movie = new Movie();
-                    movie.setPoster(json.getString("poster"));
-                    movie.setTitle(json.getString("title"));
-                    movie.setDesc(json.getString("desc"));
-                    _activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            _callback.onPlaying(movie);
-                        }
-                    });
-                }catch(Exception e){}
-            }
-        });
     }
 
     public boolean selectPopcornApp(String localname) {
@@ -243,69 +164,74 @@ public class RemoteControl {
         }
         return list;
     }
+    */
 
     /**
      * remote control events to emit
      */
 
+    private void emit(String event){
+
+    }
+
     public void play() {
-        socket.emit("play");
+        this.emit("play");
     }
 
     public void pause() {
-        socket.emit("pause");
+        this.emit("pause");
     }
 
     public void fullscreen() {
-        socket.emit("fullscreen");
+        this.emit("fullscreen");
     }
 
     public void mute() {
-        socket.emit("mute");
+        this.emit("mute");
     }
 
     public void escape() {
-        socket.emit("press esc");
+        this.emit("press esc");
     }
 
     public void moveRight() {
-        socket.emit("move right");
+        this.emit("move right");
     }
 
     public void moveLeft() {
-        socket.emit("move left");
+        this.emit("move left");
     }
 
     public void moveUp() {
-        socket.emit("move up");
+        this.emit("move up");
     }
 
     public void moveDown() {
-        socket.emit("move down");
+        this.emit("move down");
     }
 
     public void enter() {
-        socket.emit("press enter");
+        this.emit("press enter");
     }
 
     public void startStreaming() {
-        socket.emit("start streaming");
+        this.emit("start streaming");
     }
 
     public void cancelStreaming() {
-        socket.emit("cancel streaming");
+        this.emit("cancel streaming");
     }
 
     public void volumeUp() {
-        socket.emit("volume up");
+        this.emit("volume up");
     }
 
     public void volumeDown() {
-        socket.emit("volume down");
+        this.emit("volume down");
     }
 
     public void playTrailer() {
-        socket.emit("play trailer");
+        this.emit("play trailer");
     }
 
 }

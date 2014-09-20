@@ -1,19 +1,14 @@
 package com.urucas.popcorntimerc.activities;
 
 import android.app.ActionBar;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.urucas.popcorntimerc.R;
 import com.urucas.popcorntimerc.fragments.ControlFragment;
 import com.urucas.popcorntimerc.fragments.DownloadingFragment;
@@ -26,9 +21,6 @@ import com.urucas.popcorntimerc.model.Movie;
 import com.urucas.popcorntimerc.socket.RemoteControl;
 
 import java.util.ArrayList;
-
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
 
 public class SplashActivity extends SlidingFragmentActivity{
@@ -98,7 +90,7 @@ public class SplashActivity extends SlidingFragmentActivity{
         remote = new RemoteControl(SplashActivity.this, new RemoteControlCallback() {
             @Override
             public void onPopcornFound(ArrayList<String> popcornApps) {
-                leftMenuFragment.refreshSpinner(popcornApps);
+
             }
 
             @Override
@@ -123,11 +115,12 @@ public class SplashActivity extends SlidingFragmentActivity{
 
             @Override
             public void onPopCornDisconected(ArrayList<String> popcornApps) {
-                leftMenuFragment.refreshSpinner(popcornApps);
+
             }
         });
-        remote.search4Popcorns();
+        // remote.search4Popcorns();
 
+        showControl();
     }
 
     public static void clearVolumeKeys() {
@@ -193,10 +186,11 @@ public class SplashActivity extends SlidingFragmentActivity{
     }
 
     public void selectPopcorn(String localname) {
-
+        /*
         if(remote.selectPopcornApp(localname)) {
            // showControl();
         }
+        */
 
     }
 

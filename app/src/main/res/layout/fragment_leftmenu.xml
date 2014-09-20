@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/popcornappavailable"
+        android:text="@string/ptsettings"
         android:id="@+id/textView1"
         android:padding="12dp"
         android:textSize="16sp"
@@ -23,15 +23,79 @@
         android:layout_marginLeft="12dp"
     />
 
-    <Spinner
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/view">
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/popcornAppsSpinner"
-        android:layout_marginTop="12dp"
+
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_below="@+id/textView1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ptport"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#fff"
+        />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:id="@+id/ptPort"
          />
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ptuser"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#fff"
+            />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:id="@+id/ptUser"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ptpass"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#fff"
+            />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:id="@+id/ptPass"
+            />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/connect"
+            android:background="#fff"
+            android:textColor="#4D7AFF"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            />
+
+    </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

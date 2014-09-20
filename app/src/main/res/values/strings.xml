@@ -12,4 +12,11 @@
     <string name="cancel">Cancel </string>
     <string name="popcornappavailable">Popcorn Apps available</string>
 
+    <string name="ptsettings">PT Remote Control Settings</string>
+    <string name="ptport">HTTP API Port</string>
+    <string name="ptuser">HTTP API Username</string>
+    <string name="ptpass">HTTP API Password</string>
+
+    <string name="connect">Connect</string>
+
 </resources>

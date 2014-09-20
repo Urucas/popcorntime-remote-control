@@ -6,9 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
+import com.urucas.popcorntimerc.PopcornApplication;
 import com.urucas.popcorntimerc.R;
 import com.urucas.popcorntimerc.activities.SplashActivity;
 
@@ -30,17 +32,14 @@ public class LeftMenuFragment extends android.support.v4.app.Fragment {
 
         view = inflater.inflate(R.layout.fragment_leftmenu, container, false);
 
-        popcornAppsSpinner = (Spinner) view.findViewById(R.id.popcornAppsSpinner);
-        popcornAppsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                _activity.selectPopcorn((String) parent.getItemAtPosition(position));
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        refreshSpinner(new ArrayList<String>());
+        EditText ptPort = (EditText) view.findViewById(R.id.ptPort);
+        ptPort.setText(PopcornApplication.getSetting(PopcornApplication.PT_PORT));
+
+        EditText ptUser = (EditText) view.findViewById(R.id.ptUser);
+        ptUser.setText(PopcornApplication.getSetting(PopcornApplication.PT_USER));
+
+        EditText ptPass = (EditText) view.findViewById(R.id.ptPass);
+        ptPass.setText(PopcornApplication.getSetting(PopcornApplication.PT_PASS));
 
         return view;
     }
@@ -49,14 +48,4 @@ public class LeftMenuFragment extends android.support.v4.app.Fragment {
         _activity = activity;
     }
 
-    public void refreshSpinner(ArrayList<String> popcornList) {
-        if(popcornList.size() == 0){
-            popcornList.add(getResources().getString(R.string.nopopcorns));
-        }
-
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, popcornList);
-
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        popcornAppsSpinner.setAdapter(spinnerArrayAdapter);
-    }
 }
