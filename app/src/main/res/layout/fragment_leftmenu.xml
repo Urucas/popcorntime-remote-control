@@ -120,25 +120,35 @@
             android:id="@+id/connectBtt"
             />
 
-        <Button
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/help"
-            android:background="@null"
-            android:textColor="#fff"
-            android:textSize="14sp"
-            android:visibility="gone"
-            />
+            android:weightSum="1"
+            android:orientation="horizontal">
 
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/about"
-            android:background="@null"
-            android:textColor="#fff"
-            android:textSize="14sp"
-            android:visibility="gone"
-            />
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/help"
+                android:background="@null"
+                android:textColor="#fff"
+                android:textSize="14sp"
+                android:layout_weight="0.5"
+                android:id="@+id/helpBtt"
+                />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/about"
+                android:background="@null"
+                android:textColor="#fff"
+                android:textSize="14sp"
+                android:layout_weight="0.5"
+                android:id="@+id/aboutBtt"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#4D7AFF">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/version"
+                android:padding="12dp"
+                android:textSize="14sp"
+                android:textColor="#fff"
+                android:layout_marginTop="4dp"
+                />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_text"
+                android:id="@+id/textView1"
+                android:padding="12dp"
+                android:textSize="12sp"
+                android:textColor="#fff"
+                />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="4dp"
+                android:background="#fff"
+                android:id="@+id/view"
+                android:layout_marginLeft="12dp"
+                android:layout_marginBottom="12dp"
+                />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/share"
+                    android:background="@null"
+                    android:textColor="#fff"
+                    android:textSize="14sp"
+                    android:layout_weight="0.5"
+                    android:id="@+id/shareBtt"
+                    />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rate"
+                    android:background="@null"
+                    android:textColor="#fff"
+                    android:textSize="14sp"
+                    android:layout_weight="0.5"
+                    android:id="@+id/rateBtt"
+                    />
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/contribute"
+                android:background="@null"
+                android:textColor="#fff"
+                android:textSize="14sp"
+                android:id="@+id/contributeBtt"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</RelativeLayout>
