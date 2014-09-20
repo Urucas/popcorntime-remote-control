@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import com.urucas.popcorntimerc.PopcornApplication;
 import com.urucas.popcorntimerc.R;
 import com.urucas.popcorntimerc.activities.AboutActivity;
+import com.urucas.popcorntimerc.activities.HelpActivity;
 import com.urucas.popcorntimerc.activities.SplashActivity;
 import com.urucas.popcorntimerc.interfaces.JSONRPCCallback;
 import com.urucas.popcorntimerc.utils.Utils;
@@ -69,11 +70,24 @@ public class LeftMenuFragment extends android.support.v4.app.Fragment {
             }
         });
 
+        Button helpBtt = (Button) view.findViewById(R.id.helpBtt);
+        helpBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openHelp();
+            }
+        });
+
         return view;
     }
 
     private void openAbout() {
         Intent intent = new Intent(getActivity(), AboutActivity.class);
+        getActivity().startActivity(intent);
+    }
+
+    private void openHelp() {
+        Intent intent = new Intent(getActivity(), HelpActivity.class);
         getActivity().startActivity(intent);
     }
 

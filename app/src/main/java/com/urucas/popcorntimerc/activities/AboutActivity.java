@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.urucas.popcorntimerc.R;
+import com.urucas.popcorntimerc.utils.Utils;
 
 /**
  * Created by Urucas on 9/20/14.
@@ -72,6 +73,14 @@ public class AboutActivity extends ActionBarActivity {
                 contribute();
             }
         });
+
+        Button feedbackBtt = (Button) findViewById(R.id.feedbackBtt);
+        feedbackBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                feedback();
+            }
+        });
     }
 
     private void share() {
@@ -93,5 +102,27 @@ public class AboutActivity extends ActionBarActivity {
     private void contribute() {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Urucas/popcorntime-remote-control/tree/json-rpc"));
         startActivity(intent);
+    }
+
+    private void feedback() {
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setType("text/plain");
+
+        String email = "hello@urucas.com";
+
+        String subject = getResources().getString(R.string.email_subject);
+        String body = getResources().getString(R.string.email_body);
+
+        String uriText = "mailto:" + Uri.encode(email) +
+                "?subject=" + Uri.encode(subject) +
+                "&body=" + Uri.encode(body);
+        Uri uri = Uri.parse(uriText);
+
+        intent.setData(uri);
+
+        String intentTitle = getResources().getString(R.string.email_send);
+
+        startActivity(Intent.createChooser(intent, intentTitle));
     }
 }

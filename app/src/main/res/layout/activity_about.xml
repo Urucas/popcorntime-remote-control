@@ -72,15 +72,35 @@
 
             </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
             <Button
-                android:layout_width="fill_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/contribute"
                 android:background="@null"
                 android:textColor="#fff"
                 android:textSize="14sp"
+                android:layout_weight="0.5"
                 android:id="@+id/contributeBtt"
                 />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/feedback"
+                android:background="@null"
+                android:textColor="#fff"
+                android:textSize="14sp"
+                android:layout_weight="0.5"
+                android:id="@+id/feedbackBtt"
+                />
+
+            </LinearLayout>
 
         </LinearLayout>
 
