@@ -46,12 +46,20 @@
             android:textColor="#fff"
             />
 
-        <EditText
+        <Spinner
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textColor="#fff"
+            android:id="@+id/spinnerHosts"
+            >
+        </Spinner>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/ptHost"
             android:enabled="true"
+            android:textColor="#fff"
             android:inputType="number"
             />
 

@@ -32,6 +32,7 @@
     <string name="share">Share</string>
     <string name="feedback">Feedback</string>
 
+    <string name="searchinghosts">Searching for possible hosts connections</string>
     <string name="settingserror">Mmm, there was a problem update the connection settgins. Check that you enter a valid host!</string>
     <string name="connectionworking">Hurray! The remote control is connect to your Popcorn app</string>
     <string name="connectiontesterror">Sorry! The remote control cant connect to your Popcorn desktop app. Check the connection settings!</string>

@@ -23,7 +23,7 @@ public class PopcornApplication extends Application {
     public static String PT_USER = "pt-username";
     public static String PT_PASS = "pt-password";
 
-    private static String PT_HOST_DEFAULT = "192.168.0.102";
+    private static String PT_HOST_DEFAULT = "192.168.0.100";
     private static String PT_PORT_DEFAULT = "8008";
     private static String PT_USER_DEFAULT = "popcorn";
     private static String PT_PASS_DEFAULT = "popcorn";

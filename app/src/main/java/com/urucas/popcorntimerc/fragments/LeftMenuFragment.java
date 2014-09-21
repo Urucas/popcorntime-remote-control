@@ -19,6 +19,7 @@ import com.urucas.popcorntimerc.activities.AboutActivity;
 import com.urucas.popcorntimerc.activities.HelpActivity;
 import com.urucas.popcorntimerc.activities.SplashActivity;
 import com.urucas.popcorntimerc.interfaces.JSONRPCCallback;
+import com.urucas.popcorntimerc.interfaces.SocketFoundCallback;
 import com.urucas.popcorntimerc.utils.Utils;
 
 import org.json.JSONObject;
@@ -34,6 +35,9 @@ public class LeftMenuFragment extends android.support.v4.app.Fragment {
 
     private SplashActivity _activity;
     private EditText ptPort, ptUser, ptPass, ptHost;
+
+    private Spinner hostsSpinner;
+    private ArrayList<String> hostsLists;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,7 +82,50 @@ public class LeftMenuFragment extends android.support.v4.app.Fragment {
             }
         });
 
+        hostsLists   = new ArrayList<String>();
+        hostsLists.add(PopcornApplication.getSetting(PopcornApplication.PT_HOST));
+
+        hostsSpinner = (Spinner) view.findViewById(R.id.spinnerHosts);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, hostsLists);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        hostsSpinner.setAdapter(spinnerArrayAdapter);
+        hostsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String host = (String) parent.getItemAtPosition(position);
+                ptHost.setText(host);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        Utils.Toast(getActivity(), R.string.searchinghosts);
+        SplashActivity.getRemoteControl().search4Sockets(new SocketFoundCallback(){
+            @Override
+            public void onSuccess(String host) {
+                addFoundedHost(host);
+            }
+        });
         return view;
+    }
+
+    private void addFoundedHost(String host) {
+        Log.i("founded", host);
+        for(String h: hostsLists) {
+            if(h.equals(host)) return;
+        }
+        hostsLists.add(host);
+        refreshHostList(hostsLists);
+    }
+
+    private void refreshHostList(ArrayList<String> hostsLists) {
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, hostsLists);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        hostsSpinner.setAdapter(spinnerArrayAdapter);
     }
 
     private void openAbout() {

@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.thetransactioncompany.jsonrpc2.JSONRPC2Error;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2Request;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2Response;
 import com.thetransactioncompany.jsonrpc2.client.ConnectionConfigurator;
@@ -15,19 +13,14 @@ import com.thetransactioncompany.jsonrpc2.client.JSONRPC2SessionException;
 import com.urucas.popcorntimerc.R;
 import com.urucas.popcorntimerc.activities.SplashActivity;
 import com.urucas.popcorntimerc.interfaces.JSONRPCCallback;
-import com.urucas.popcorntimerc.interfaces.RemoteControlCallback;
-import com.urucas.popcorntimerc.model.Movie;
+import com.urucas.popcorntimerc.interfaces.SocketFoundCallback;
 import com.urucas.popcorntimerc.utils.Utils;
 
 import org.json.JSONObject;
 
-import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.PasswordAuthentication;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,10 +42,9 @@ public class RemoteControl {
         _port = port;
         _user = user;
         _pass = pass;
-
     }
 
-    public void search4Sockets() {
+    public void search4Sockets(final SocketFoundCallback callback) {
 
         String _myip = Utils.getIPAddress(true);
 
@@ -62,12 +54,10 @@ public class RemoteControl {
 
         for(int i = 0; i<256; i++) {
             String ip = localip + String.valueOf(i);
-            final String socketip = ip + ":"+_port;
-
+            final String hosts = ip;
             if(ip.equals(_myip)) continue;
-
             try {
-                JSONRPC2Session testSession = new JSONRPC2Session(new URL(socketip));
+                JSONRPC2Session testSession = new JSONRPC2Session(new URL(hosts+ ":"+_port));
                 BasicAuthenticator auth = new BasicAuthenticator();
                 auth.setCredentials(_user, _pass);
                 testSession.setConnectionConfigurator(auth);
@@ -75,19 +65,15 @@ public class RemoteControl {
                 new JSONRPCTask(testSession, new JSONRPCCallback(){
 
                     @Override
-                    public void onSuccess(JSONObject jsonObject) {
-
-                    }
+                    public void onSuccess(JSONObject jsonObject) { }
 
                     @Override
                     public void onSuccess() {
-                        Log.i("found", socketip);
+                        callback.onSuccess(hosts.replace("http://", ""));
                     }
 
                     @Override
-                    public void onError(int error) {
-                        Log.i("socket error", socketip);
-                    }
+                    public void onError(int error) { }
 
                 }).execute("ping");
 
