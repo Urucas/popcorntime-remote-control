@@ -102,6 +102,7 @@ public class LeftMenuFragment extends android.support.v4.app.Fragment {
             }
         });
 
+        /*
         Utils.Toast(getActivity(), R.string.searchinghosts);
         SplashActivity.getRemoteControl().search4Sockets(new SocketFoundCallback(){
             @Override
@@ -109,6 +110,7 @@ public class LeftMenuFragment extends android.support.v4.app.Fragment {
                 addFoundedHost(host);
             }
         });
+        */
         return view;
     }
 

@@ -51,6 +51,7 @@
             android:layout_height="wrap_content"
             android:textColor="#fff"
             android:id="@+id/spinnerHosts"
+            android:visibility="gone"
             >
         </Spinner>
 

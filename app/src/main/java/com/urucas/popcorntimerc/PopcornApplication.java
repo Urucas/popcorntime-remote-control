@@ -13,9 +13,7 @@ import com.urucas.popcorntimerc.socket.RemoteControl;
 
 public class PopcornApplication extends Application {
 
-
     private static PopcornApplication _instance;
-    private static RemoteControl _remotecontrol;
     private static SharedPreferences _preferences;
 
     public static String PT_HOST = "pt-ip";
