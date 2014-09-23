@@ -7,31 +7,160 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/popcornappavailable"
+        android:text="@string/ptsettings"
         android:id="@+id/textView1"
         android:padding="12dp"
         android:textSize="16sp"
         android:textColor="#fff"
+        android:layout_marginTop="4dp"
     />
 
     <View
         android:layout_width="fill_parent"
-        android:layout_height="1dp"
+        android:layout_height="4dp"
         android:background="#fff"
         android:id="@+id/view"
         android:layout_below="@+id/textView1"
         android:layout_marginLeft="12dp"
     />
 
-    <Spinner
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/view">
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/popcornAppsSpinner"
-        android:layout_marginTop="12dp"
+
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_below="@+id/textView1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pthost"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#fff"
+            />
+
+        <Spinner
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:id="@+id/spinnerHosts"
+            android:visibility="gone"
+            >
+        </Spinner>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ptHost"
+            android:enabled="true"
+            android:textColor="#fff"
+            android:inputType="numberDecimal"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ptport"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#fff"
+        />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:id="@+id/ptPort"
+            android:enabled="true"
+            android:inputType="number"
          />
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ptuser"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#fff"
+            />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:id="@+id/ptUser"
+            android:enabled="true"
+            android:inputType="textPersonName"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ptpass"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#fff"
+            />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:id="@+id/ptPass"
+            android:enabled="true"
+            android:inputType="textPersonName"
+            />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/connect"
+            android:background="#fff"
+            android:textColor="#4D7AFF"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:id="@+id/connectBtt"
+            />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/help"
+                android:background="@null"
+                android:textColor="#fff"
+                android:textSize="14sp"
+                android:layout_weight="0.5"
+                android:id="@+id/helpBtt"
+                />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/about"
+                android:background="@null"
+                android:textColor="#fff"
+                android:textSize="14sp"
+                android:layout_weight="0.5"
+                android:id="@+id/aboutBtt"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

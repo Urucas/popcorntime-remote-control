@@ -1,34 +1,19 @@
 package com.urucas.popcorntimerc.activities;
 
 import android.app.ActionBar;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.Spinner;
-
-import com.urucas.popcorntimerc.R;
-import com.urucas.popcorntimerc.fragments.ControlFragment;
-import com.urucas.popcorntimerc.fragments.DownloadingFragment;
-import com.urucas.popcorntimerc.fragments.LeftMenuFragment;
-import com.urucas.popcorntimerc.fragments.MovieDetailFragment;
-import com.urucas.popcorntimerc.fragments.PlayingFragment;
-import com.urucas.popcorntimerc.interfaces.RemoteControlCallback;
-import com.urucas.popcorntimerc.interfaces.VolumeKeysCallback;
-import com.urucas.popcorntimerc.model.Movie;
-import com.urucas.popcorntimerc.socket.RemoteControl;
-
-import java.util.ArrayList;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
+import com.urucas.popcorntimerc.PopcornApplication;
+import com.urucas.popcorntimerc.R;
+import com.urucas.popcorntimerc.fragments.ControlFragment;
+import com.urucas.popcorntimerc.fragments.LeftMenuFragment;
+import com.urucas.popcorntimerc.socket.RemoteControl;
+import com.urucas.popcorntimerc.utils.Utils;
 
 
 public class SplashActivity extends SlidingFragmentActivity{
@@ -37,11 +22,6 @@ public class SplashActivity extends SlidingFragmentActivity{
 
     private static RemoteControl remote;
     private ControlFragment controlFragment;
-    private MovieDetailFragment movieFragment;
-    private DownloadingFragment downloadingFragment;
-    private PlayingFragment playingFragment;
-
-    public static VolumeKeysCallback volumeCallback;
     private SlidingMenu sm;
     private LeftMenuFragment leftMenuFragment;
     private ActionBar actionBar;
@@ -72,8 +52,6 @@ public class SplashActivity extends SlidingFragmentActivity{
             .replace(R.id.frame_leftmenu, leftMenuFragment)
             .commit();
 
-        clearVolumeKeys();
-
         try {
 
             actionBar = getActionBar();
@@ -95,53 +73,14 @@ public class SplashActivity extends SlidingFragmentActivity{
             e.printStackTrace();
         }
 
-        remote = new RemoteControl(SplashActivity.this, new RemoteControlCallback() {
-            @Override
-            public void onPopcornFound(ArrayList<String> popcornApps) {
-                leftMenuFragment.refreshSpinner(popcornApps);
-            }
-
-            @Override
-            public void onMovieDetail(Movie movie) {
-                showMovieDetail(movie);
-            }
-
-            @Override
-            public void onControlRequest() {
-                showControl();
-            }
-
-            @Override
-            public void onDownloading(Movie movie) {
-                showDownloading(movie);
-            }
-
-            @Override
-            public void onPlaying(Movie movie) {
-                showPlaying(movie);
-            }
-
-            @Override
-            public void onPopCornDisconected(ArrayList<String> popcornApps) {
-                leftMenuFragment.refreshSpinner(popcornApps);
-            }
-        });
-        remote.search4Popcorns();
-
-    }
-
-    public static void clearVolumeKeys() {
-        volumeCallback = new VolumeKeysCallback(){
-            @Override
-            public void onVolumeUp() { }
-
-            @Override
-            public void onVolumeDown() { }
-        };
-    }
-
-    public static void setVolumeKeys(VolumeKeysCallback callback) {
-        volumeCallback = callback;
+        remote = new RemoteControl(
+                SplashActivity.this,
+                PopcornApplication.getSetting(PopcornApplication.PT_HOST),
+                PopcornApplication.getSetting(PopcornApplication.PT_PORT),
+                PopcornApplication.getSetting(PopcornApplication.PT_USER),
+                PopcornApplication.getSetting(PopcornApplication.PT_PASS)
+        );
+        showControl();
     }
 
     public static RemoteControl getRemoteControl() {
@@ -159,65 +98,8 @@ public class SplashActivity extends SlidingFragmentActivity{
 
     }
 
-    public void showMovieDetail(Movie movie) {
-
-        movieFragment = new MovieDetailFragment();
-        movieFragment.setMovie(movie);
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame, movieFragment)
-                .commit();
-    }
-
-    public void showDownloading(Movie movie) {
-
-        downloadingFragment = new DownloadingFragment();
-        downloadingFragment.setMovie(movie);
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame, downloadingFragment)
-                .commit();
-    }
-
-    public void showPlaying(Movie movie) {
-
-        playingFragment = new PlayingFragment();
-        playingFragment.setMovie(movie);
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame, playingFragment)
-                .commit();
-    }
-
-    public void selectPopcorn(String localname) {
-
-        if(remote.selectPopcornApp(localname)) {
-           // showControl();
-        }
-
-    }
-
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        int action = event.getAction();
-        int keyCode = event.getKeyCode();
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_VOLUME_UP:
-                if (action == KeyEvent.ACTION_DOWN) {
-                    volumeCallback.onVolumeDown();
-                }
-                return true;
-            case KeyEvent.KEYCODE_VOLUME_DOWN:
-                if (action == KeyEvent.ACTION_DOWN) {
-                    volumeCallback.onVolumeUp();
-                }
-                return true;
-            default:
-                return super.dispatchKeyEvent(event);
-        }
+    public void connectionError(int error) {
+        Utils.Toast(SplashActivity.this, error);
     }
 
 }

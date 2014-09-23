@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Remote control</string>
-    <string name="title">It\'s popcorn time</string>
+    <string name="title"><![CDATA[It\'s movie time!]]></string>
     <string name="refresh">Refresh</string>
     <string name="noconnection">Wifi connection is not enabled!</string>
     <string name="nopopcorns">No devices with Popcorn found</string>
@@ -11,5 +11,63 @@
     <string name="watchnow">Watch now </string>
     <string name="cancel">Cancel </string>
     <string name="popcornappavailable">Popcorn Apps available</string>
+
+    <string name="ptsettings">PT Remote Control Settings</string>
+    <string name="ptport">HTTP API Port</string>
+    <string name="pthost">HTTP API Host</string>
+    <string name="ptuser">HTTP API Username</string>
+    <string name="ptpass">HTTP API Password</string>
+
+    <string name="help">Help</string>
+    <string name="about">About</string>
+
+    <string name="season">Season</string>
+    <string name="connect">Test connection</string>
+    <string name="edit">Edit</string>
+    <string name="movies">Movies</string>
+    <string name="tvseries">TV Series</string>
+
+    <string name="rate">Rate</string>
+    <string name="contribute">Contribute</string>
+    <string name="share">Share</string>
+    <string name="feedback">Feedback</string>
+
+    <string name="searchinghosts">Searching for possible hosts connections</string>
+    <string name="settingserror">Mmm, there was a problem update the connection settgins. Check that you enter a valid host!</string>
+    <string name="connectionworking">Hurray! The remote control is connect to your Popcorn app</string>
+    <string name="connectiontesterror">Sorry! The remote control cant connect to your Popcorn desktop app. Check the connection settings!</string>
+
+    <string name="version">PT Remote Control - version:1.0.4</string>
+    <string name="about_text"><![CDATA[Have you download the new release of Popcorn Time app published this Sep. 17 ? Yes ? Well you should then have the Android Remote Control for it! \n\n
+PT Remote Control is the Android remote control working for the latest release of Popcorn Time app(Beta 3.3), manage the desktop app from the confort of your phone, change between movies or tv series, toggle your favourites and watched movies, select a season to watch, play it, mute it.\n\n
+This is a beta app, hope you like it! Give some feedback.]]></string>
+
+    <string name="share_body"><![CDATA[I\'m using the PT Remote control to managa the Popcorn Time app. It\'s great! http://popcorn.urucas.com]]></string>
+    <string name="share_via">via @Urucas</string>
+    <string name="share_subject"><![CDATA[It\' movie time!]]></string>
+
+    <string name="email_subject">PT Remote Control Feedback</string>
+    <string name="email_body">Tell us what you think of the PT Remote Control app: </string>
+    <string name="email_send">Send</string>
+
+    <string name="help_text"><![CDATA[
+    <b> I\'m getting the error: \"Wifi connection is not enabled!\" ? </b><br /><br />
+    Solution: <br />
+    * Check that your Android phone is connected to Wifi <br/>
+<br /><br />
+    <b> I\'m getting the error: \"Sorry! The remote control cant connect to your Popcorn desktop app. Check the connection settings!</b>\"<br />
+    <br />Solutions: <br />
+    * Check that your Android phone and PC(or Mac) are connected to the same Wifi<br />
+    * Check the connection host IP corresponds to your desktop app<br />
+    * Check the connection settings(port, user, password) on your Popcorn desktop app<br /><br />
+
+    <b>How cant I check my desktop app host IP ?</b><br /><br />
+    Solution:<br />
+    * Open Wifi Preferences on your desktop PC(or Mac) and it would show you the current IP(192.168.x.x). <br />We are currently working to automate this step, for the end of this week this will be implemented and you won\'t have to worry about it! </br><br />
+
+     <br /><b>How cant I check my Popcorn desktop app settings(port,user,pass) ?</b><br /><br />
+    Solution:<br />
+    * In your Popcorn desktop app at the right top corner there\'s the Settings button. Tap it to enter the Popcorn app settings. Once in there check the \"Show advanced settings\" and scroll down to the Remote Control section. <br />Check the HTTP API Port, HTTP API Username, HTTP API Password in your desktop app are the same that the one\'s in your PT Remote Control app.<br /><br />
+    ]]></string>
 
 </resources>

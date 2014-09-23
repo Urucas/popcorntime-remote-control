@@ -2,9 +2,9 @@ package com.urucas.popcorntimerc;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.urucas.popcorntimerc.socket.RemoteControl;
 
 /**
@@ -13,22 +13,63 @@ import com.urucas.popcorntimerc.socket.RemoteControl;
 
 public class PopcornApplication extends Application {
 
-    private static ImageLoader _imageloader;
     private static PopcornApplication _instance;
-    private static RemoteControl _remotecontrol;
+    private static SharedPreferences _preferences;
+
+    public static String PT_HOST = "pt-ip";
+    public static String PT_PORT = "pt-port";
+    public static String PT_USER = "pt-username";
+    public static String PT_PASS = "pt-password";
+
+    private static String PT_HOST_DEFAULT = "192.168.0.100";
+    private static String PT_PORT_DEFAULT = "8008";
+    private static String PT_USER_DEFAULT = "popcorn";
+    private static String PT_PASS_DEFAULT = "popcorn";
 
     public PopcornApplication() {
         super();
         _instance = this;
     }
 
-    public static ImageLoader getImageLoader() {
-        if(_imageloader == null) {
-            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(_instance.getApplicationContext()).build();
-            ImageLoader.getInstance().init(config);
-            _imageloader = ImageLoader.getInstance();
+    private static SharedPreferences getPreferences() {
+        if(_preferences == null) {
+            _preferences = PreferenceManager.getDefaultSharedPreferences(_instance.getApplicationContext());
         }
-        return _imageloader;
+        return _preferences;
+    }
+
+    public static String getSetting(String key) {
+
+        SharedPreferences pref = PopcornApplication.getPreferences();
+        if(key.equals(PT_HOST)) {
+            return pref.getString(PT_HOST, PT_HOST_DEFAULT);
+        }
+        if(key.equals(PT_PORT)) {
+            return pref.getString(PT_PORT, PT_PORT_DEFAULT);
+        }
+        if(key.equals(PT_USER)) {
+            return pref.getString(PT_USER, PT_USER_DEFAULT);
+        }
+        if(key.equals(PT_PASS)) {
+            return pref.getString(PT_PASS, PT_PASS_DEFAULT);
+        }
+        return null;
+    }
+
+    public static void setSetting(String key, String value) {
+        SharedPreferences pref = PopcornApplication.getPreferences();
+        if(key.equals(PT_HOST)) {
+            pref.edit().putString(PT_HOST, value).commit();
+        }
+        if(key.equals(PT_PORT)) {
+            pref.edit().putString(PT_PORT, value).commit();
+        }
+        if(key.equals(PT_USER)) {
+            pref.edit().putString(PT_USER, value).commit();
+        }
+        if(key.equals(PT_PASS)) {
+            pref.edit().putString(PT_PASS, value).commit();
+        }
     }
 
     public static PopcornApplication getInstance() {
