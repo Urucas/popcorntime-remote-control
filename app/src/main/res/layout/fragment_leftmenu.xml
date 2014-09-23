@@ -61,7 +61,7 @@
             android:id="@+id/ptHost"
             android:enabled="true"
             android:textColor="#fff"
-            android:inputType="numberDecimal"
+            android:inputType="textUri"
             />
 
         <TextView
