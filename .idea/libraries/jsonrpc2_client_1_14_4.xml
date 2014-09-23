@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="jsonrpc2-client-1.14.4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.thetransactioncompany/jsonrpc2-client/1.14.4/c152e244cc4a54c1360cfe29aec695478108a087/jsonrpc2-client-1.14.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.thetransactioncompany/jsonrpc2-client/1.14.4/6e2671da79ff6f99e48bd104685d2d37b1019ae/jsonrpc2-client-1.14.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

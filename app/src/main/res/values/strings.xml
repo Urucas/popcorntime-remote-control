@@ -42,7 +42,7 @@
 PT Remote Control is the Android remote control working for the latest release of Popcorn Time app(Beta 3.3), manage the desktop app from the confort of your phone, change between movies or tv series, toggle your favourites and watched movies, select a season to watch, play it, mute it.\n\n
 This is a beta app, hope you like it! Give some feedback.]]></string>
 
-    <string name="share_body"><![CDATA[I\'m using the PT Remote control to managa the Popcorn Time app. It\'s great! http://popcorn.urucas.com]]></string>
+    <string name="share_body"><![CDATA[I\'m using the PT Remote control to manage the Popcorn Time app. It\'s great! http://popcorn.urucas.com]]></string>
     <string name="share_via">via @Urucas</string>
     <string name="share_subject"><![CDATA[It\' movie time!]]></string>
 
