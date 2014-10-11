@@ -9,16 +9,15 @@ import android.widget.ImageButton;
 
 import com.crashlytics.android.Crashlytics;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.urucas.popcorntimerc.PopcornApplication;
 import com.urucas.popcorntimerc.R;
 import com.urucas.popcorntimerc.fragments.ControlFragment;
 import com.urucas.popcorntimerc.fragments.LeftMenuFragment;
+import com.urucas.popcorntimerc.fragments.SlidingSupportActionBarActivity;
 import com.urucas.popcorntimerc.socket.RemoteControl;
 import com.urucas.popcorntimerc.utils.Utils;
 
-
-public class SplashActivity extends SlidingFragmentActivity{
+public class SplashActivity extends SlidingSupportActionBarActivity{
 
     private static final String TAG_NAME = "SplashActivity";
     public static final int SCAN_INTENT = 1;
@@ -27,7 +26,7 @@ public class SplashActivity extends SlidingFragmentActivity{
     private ControlFragment controlFragment;
     private SlidingMenu sm;
     private LeftMenuFragment leftMenuFragment;
-    private ActionBar actionBar;
+    private android.support.v7.app.ActionBar actionBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +57,7 @@ public class SplashActivity extends SlidingFragmentActivity{
 
         try {
 
-            actionBar = getActionBar();
+            actionBar = getSupportActionBar();
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setTitle("");
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
