@@ -2,50 +2,50 @@
 <resources>
     <string name="app_name">Remote control</string>
     <string name="title"><![CDATA[It\'s movie time!]]></string>
-    <string name="refresh">Refresh</string>
-    <string name="noconnection">Wifi connection is not enabled!</string>
-    <string name="nopopcorns">No devices with Popcorn found</string>
-    <string name="playernotfound">Mmm, please select a movie to play first!</string>
-    <string name="nowplaying">Now playing: </string>
-    <string name="watchtrailer">Watch Trailer </string>
-    <string name="watchnow">Watch now </string>
-    <string name="cancel">Cancel </string>
-    <string name="popcornappavailable">Popcorn Apps available</string>
+    <string name="refresh">Actualizar</string>
+    <string name="noconnection">La conexión Wifi no esta habilitada!</string>
+    <string name="nopopcorns">No se ha encontrado ningún dispositivo con Popcorn</string>
+    <string name="playernotfound">Mmm, debes seleccionar una pelicula primero!</string>
+    <string name="nowplaying">Reproduciendo: </string>
+    <string name="watchtrailer">Mirar Trailer </string>
+    <string name="watchnow">Reproducir </string>
+    <string name="cancel">Cancelar </string>
+    <string name="popcornappavailable">Hemos encontrado</string>
 
     <string name="scanqr">Scan QR Code</string>
-    <string name="errorscanning">Error scanning QR Code, try again!</string>
+    <string name="errorscanning">Error al escanear el codigo QR, intenta nuevamente!</string>
 
-    <string name="ptsettings">PT Remote Control Settings</string>
-    <string name="ptport">HTTP API Port</string>
+    <string name="ptsettings">Configuración PT Remote Control</string>
+    <string name="ptport">HTTP API Puerto</string>
     <string name="pthost">HTTP API Host</string>
-    <string name="ptuser">HTTP API Username</string>
-    <string name="ptpass">HTTP API Password</string>
+    <string name="ptuser">HTTP API Usuario</string>
+    <string name="ptpass">HTTP API Contraseña</string>
 
-    <string name="help">Help</string>
-    <string name="about">About</string>
+    <string name="help">Ayuda</string>
+    <string name="about">Acerca de</string>
 
     <string name="season">Season</string>
-    <string name="connect">Test connection</string>
-    <string name="edit">Edit</string>
+    <string name="connect">Testear conexión</string>
+    <string name="edit">Editar</string>
     <string name="movies">Movies</string>
     <string name="tvseries">TV Series</string>
 
-    <string name="rate">Rate</string>
-    <string name="contribute">Contribute</string>
-    <string name="share">Share</string>
+    <string name="rate">Calificar</string>
+    <string name="contribute">Contribuir</string>
+    <string name="share">Compartir</string>
     <string name="feedback">Feedback</string>
 
-    <string name="searchinghosts">Searching for possible hosts connections</string>
-    <string name="settingserror">Mmm, there was a problem update the connection settgins. Check that you enter a valid host!</string>
-    <string name="connectionworking">Hurray! The remote control is connect to your Popcorn app</string>
-    <string name="connectiontesterror">Sorry! The remote control cant connect to your Popcorn desktop app. Check the connection settings!</string>
+    <string name="searchinghosts">Buscando posibles conexiones</string>
+    <string name="settingserror">Mmm, ha ocurrido un problema al intentar actualizar la configuración del control remote. Chequea que hayas entrado un host valido!</string>
+    <string name="connectionworking">Hurray! El control remoto se conecto a tu aplicacion de Popcorn</string>
+    <string name="connectiontesterror">Perdon! El control remoto no se ha podido conectar a la aplicacion de Popcorn. Chequea la configuracion de la conexión.</string>
 
     <string name="version">PT Remote Control - version:1.0.4</string>
     <string name="about_text"><![CDATA[Have you download the new release of Popcorn Time app published this Sep. 17 ? Yes ? Well you should then have the Android Remote Control for it! \n\n
 PT Remote Control is the Android remote control working for the latest release of Popcorn Time app(Beta 3.3), manage the desktop app from the confort of your phone, change between movies or tv series, toggle your favourites and watched movies, select a season to watch, play it, mute it.\n\n
 This is a beta app, hope you like it! Give some feedback.]]></string>
 
-    <string name="share_body"><![CDATA[I\'m using the PT Remote control to manage the Popcorn Time app. It\'s great! http://popcorn.urucas.com]]></string>
+    <string name="share_body"><![CDATA[Estoy usando PT Remote control para manejar la app de Popcorn Time. Esta buenisima! http://popcorn.urucas.com]]></string>
     <string name="share_via">via @Urucas</string>
     <string name="share_subject"><![CDATA[It\' movie time!]]></string>
 

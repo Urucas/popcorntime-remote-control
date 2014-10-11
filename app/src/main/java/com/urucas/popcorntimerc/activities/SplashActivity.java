@@ -1,35 +1,38 @@
 package com.urucas.popcorntimerc.activities;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.crashlytics.android.Crashlytics;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.urucas.popcorntimerc.PopcornApplication;
 import com.urucas.popcorntimerc.R;
 import com.urucas.popcorntimerc.fragments.ControlFragment;
 import com.urucas.popcorntimerc.fragments.LeftMenuFragment;
+import com.urucas.popcorntimerc.fragments.SlidingSupportActionBarActivity;
 import com.urucas.popcorntimerc.socket.RemoteControl;
 import com.urucas.popcorntimerc.utils.Utils;
 
-
-public class SplashActivity extends SlidingFragmentActivity{
+public class SplashActivity extends SlidingSupportActionBarActivity{
 
     private static final String TAG_NAME = "SplashActivity";
+    public static final int SCAN_INTENT = 1;
 
     private static RemoteControl remote;
     private ControlFragment controlFragment;
     private SlidingMenu sm;
     private LeftMenuFragment leftMenuFragment;
-    private ActionBar actionBar;
+    private android.support.v7.app.ActionBar actionBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        Crashlytics.start(this);
 
         setContentView(R.layout.activity_splash);
         setBehindContentView(R.layout.frame_leftmenu);
@@ -54,7 +57,7 @@ public class SplashActivity extends SlidingFragmentActivity{
 
         try {
 
-            actionBar = getActionBar();
+            actionBar = getSupportActionBar();
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setTitle("");
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -102,4 +105,16 @@ public class SplashActivity extends SlidingFragmentActivity{
         Utils.Toast(SplashActivity.this, error);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+        super.onActivityResult(requestCode, resultCode, intent);
+        if(requestCode == SCAN_INTENT && resultCode == RESULT_OK){
+            leftMenuFragment.updateData();
+        }
+    }
+
+    public void scanCode() {
+        Intent intent = new Intent(SplashActivity.this, ScannerActivity.class);
+        startActivityForResult(intent, SplashActivity.SCAN_INTENT);
+    }
 }

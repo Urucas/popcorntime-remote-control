@@ -16,6 +16,7 @@ import com.urucas.popcorntimerc.interfaces.JSONRPCCallback;
 import com.urucas.popcorntimerc.interfaces.SocketFoundCallback;
 import com.urucas.popcorntimerc.utils.Utils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
@@ -35,6 +36,8 @@ public class RemoteControl {
 
     private JSONRPC2Session _jsonRPCSession;
     private Activity _activity;
+
+    public static int volume = 50;
 
     public RemoteControl(Activity activity, String host, String port, String user, String pass) {
         _activity = activity;
@@ -65,7 +68,7 @@ public class RemoteControl {
                 new JSONRPCTask(testSession, new JSONRPCCallback(){
 
                     @Override
-                    public void onSuccess(JSONObject jsonObject) { }
+                    public void onSuccess(net.minidev.json.JSONObject jsonObject) { }
 
                     @Override
                     public void onSuccess() {
@@ -159,8 +162,13 @@ public class RemoteControl {
                 callback.onSuccess();
                 return;
             }
-            JSONObject object = (JSONObject) response.getResult();
-            callback.onSuccess(object);
+            try {
+                net.minidev.json.JSONObject object = (net.minidev.json.JSONObject) response.getResult();
+                callback.onSuccess(object);
+
+            }catch(Exception e){
+                callback.onError(R.string.connectiontesterror);
+            }
         }
 
     }
@@ -193,7 +201,7 @@ public class RemoteControl {
             new JSONRPCTask(getJsonRPCSession(), new JSONRPCCallback(){
 
                 @Override
-                public void onSuccess(JSONObject jsonObject) {
+                public void onSuccess(net.minidev.json.JSONObject jsonObject) {
 
                 }
 

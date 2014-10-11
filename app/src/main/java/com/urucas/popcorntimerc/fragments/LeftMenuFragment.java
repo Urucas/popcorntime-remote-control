@@ -1,6 +1,7 @@
 package com.urucas.popcorntimerc.fragments;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.urucas.popcorntimerc.PopcornApplication;
 import com.urucas.popcorntimerc.R;
 import com.urucas.popcorntimerc.activities.AboutActivity;
 import com.urucas.popcorntimerc.activities.HelpActivity;
+import com.urucas.popcorntimerc.activities.ScannerActivity;
 import com.urucas.popcorntimerc.activities.SplashActivity;
 import com.urucas.popcorntimerc.interfaces.JSONRPCCallback;
 import com.urucas.popcorntimerc.interfaces.SocketFoundCallback;
@@ -82,6 +84,19 @@ public class LeftMenuFragment extends android.support.v4.app.Fragment {
             }
         });
 
+
+        Button scanBtt = (Button) view.findViewById(R.id.scanBtt);
+        scanBtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scanCode();
+            }
+        });
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            scanBtt.setVisibility(View.GONE);
+        }
+
         hostsLists   = new ArrayList<String>();
         hostsLists.add(PopcornApplication.getSetting(PopcornApplication.PT_HOST));
 
@@ -102,15 +117,6 @@ public class LeftMenuFragment extends android.support.v4.app.Fragment {
             }
         });
 
-        /*
-        Utils.Toast(getActivity(), R.string.searchinghosts);
-        SplashActivity.getRemoteControl().search4Sockets(new SocketFoundCallback(){
-            @Override
-            public void onSuccess(String host) {
-                addFoundedHost(host);
-            }
-        });
-        */
         return view;
     }
 
@@ -121,6 +127,10 @@ public class LeftMenuFragment extends android.support.v4.app.Fragment {
         }
         hostsLists.add(host);
         refreshHostList(hostsLists);
+    }
+
+    private void scanCode(){
+        ((SplashActivity)_activity).scanCode();
     }
 
     private void refreshHostList(ArrayList<String> hostsLists) {
@@ -162,8 +172,8 @@ public class LeftMenuFragment extends android.support.v4.app.Fragment {
 
         SplashActivity.getRemoteControl().ping(new JSONRPCCallback() {
             @Override
-            public void onSuccess(JSONObject jsonObject) {
-
+            public void onSuccess(net.minidev.json.JSONObject jsonObject) {
+                Utils.Toast(getActivity(), R.string.connectionworking);
             }
 
             @Override
@@ -176,6 +186,16 @@ public class LeftMenuFragment extends android.support.v4.app.Fragment {
                 Utils.Toast(getActivity(), error);
             }
         });
+    }
+
+    public void updateData(){
+
+        ptHost.setText(PopcornApplication.getSetting(PopcornApplication.PT_HOST));
+        ptPort.setText(PopcornApplication.getSetting(PopcornApplication.PT_PORT));
+        ptUser.setText(PopcornApplication.getSetting(PopcornApplication.PT_USER));
+        ptPass.setText(PopcornApplication.getSetting(PopcornApplication.PT_PASS));
+
+        testConnection();
     }
 
     public void setActivity(SplashActivity activity) {

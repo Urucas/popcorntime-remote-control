@@ -56,6 +56,8 @@
                     android:textColor="#fff"
                     android:textSize="14sp"
                     android:layout_weight="0.5"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
                     android:id="@+id/shareBtt"
                     />
 
@@ -67,6 +69,8 @@
                     android:textColor="#fff"
                     android:textSize="14sp"
                     android:layout_weight="0.5"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
                     android:id="@+id/rateBtt"
                     />
 
@@ -86,6 +90,8 @@
                 android:textColor="#fff"
                 android:textSize="14sp"
                 android:layout_weight="0.5"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:id="@+id/contributeBtt"
                 />
 
@@ -97,6 +103,8 @@
                 android:textColor="#fff"
                 android:textSize="14sp"
                 android:layout_weight="0.5"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:id="@+id/feedbackBtt"
                 />
 

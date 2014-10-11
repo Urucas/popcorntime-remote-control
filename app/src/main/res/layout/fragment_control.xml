@@ -50,9 +50,10 @@
             android:layout_height="wrap_content"
             android:text="@string/movies"
             android:layout_margin="0dp"
-            android:padding="0dp"
             android:textColor="#ccc"
             android:background="#000"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:id="@+id/showMoviesBtt"
             />
 
@@ -67,9 +68,10 @@
             android:layout_height="wrap_content"
             android:text="@string/tvseries"
             android:layout_margin="0dp"
-            android:padding="0dp"
             android:textColor="#ccc"
             android:background="#000"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:id="@+id/showSeriesBtt"
             />
 
