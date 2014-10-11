@@ -46,6 +46,7 @@
             android:configChanges="orientation|keyboardHidden|touchscreen"
             android:screenOrientation="portrait">
         </activity>
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="db171de015e11e4fc48b72e524144b39e8c935fb"/>
 
     </application>
 

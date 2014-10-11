@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.crashlytics.android.Crashlytics;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.urucas.popcorntimerc.PopcornApplication;
@@ -32,6 +33,7 @@ public class SplashActivity extends SlidingFragmentActivity{
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        Crashlytics.start(this);
 
         setContentView(R.layout.activity_splash);
         setBehindContentView(R.layout.frame_leftmenu);

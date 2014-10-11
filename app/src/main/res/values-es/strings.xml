@@ -12,6 +12,9 @@
     <string name="cancel">Cancelar </string>
     <string name="popcornappavailable">Hemos encontrado</string>
 
+    <string name="scanqr">Scan QR Code</string>
+    <string name="errorscanning">Error al escanear el codigo QR, intenta nuevamente!</string>
+
     <string name="ptsettings">Configuración PT Remote Control</string>
     <string name="ptport">HTTP API Puerto</string>
     <string name="pthost">HTTP API Host</string>
