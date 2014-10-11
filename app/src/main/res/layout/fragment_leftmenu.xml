@@ -32,9 +32,8 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         android:orientation="vertical">
 
         <TextView
@@ -126,6 +125,8 @@
             android:textColor="#4D7AFF"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:id="@+id/scanBtt"
             />
 
@@ -137,6 +138,8 @@
             android:textColor="#4D7AFF"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:id="@+id/connectBtt"
             />
 
@@ -154,6 +157,8 @@
                 android:textColor="#fff"
                 android:textSize="14sp"
                 android:layout_weight="0.5"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:id="@+id/helpBtt"
                 />
 
@@ -165,6 +170,8 @@
                 android:textColor="#fff"
                 android:textSize="14sp"
                 android:layout_weight="0.5"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:id="@+id/aboutBtt"
                 />
 

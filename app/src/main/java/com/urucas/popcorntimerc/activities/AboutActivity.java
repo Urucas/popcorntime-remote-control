@@ -20,7 +20,7 @@ import com.urucas.popcorntimerc.utils.Utils;
  */
 public class AboutActivity extends ActionBarActivity {
 
-    private ActionBar actionBar;
+    private android.support.v7.app.ActionBar actionBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class AboutActivity extends ActionBarActivity {
 
         try {
 
-            actionBar = getActionBar();
+            actionBar = getSupportActionBar();
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setTitle("");
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
