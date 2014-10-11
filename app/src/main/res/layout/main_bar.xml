@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="10dp"
     android:background="#000">
 
     <ImageButton
@@ -11,8 +12,6 @@
         android:background="@null"
         android:padding="8dp"
         android:src="@drawable/menu_btt"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         android:visibility="visible"/>
 
     <ImageView

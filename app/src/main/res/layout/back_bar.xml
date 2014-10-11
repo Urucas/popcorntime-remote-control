@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="10dp"
     android:background="#000">
 
     <ImageButton
@@ -11,7 +12,7 @@
         android:background="@null"
         android:scaleType="fitCenter"
         android:src="@drawable/arrow_back"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:layout_marginBottom="8dp"
         android:visibility="visible"/>
 
@@ -20,6 +21,7 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:src="@drawable/icon"
+
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/backBtt"
         android:layout_toEndOf="@+id/backBtt" />
