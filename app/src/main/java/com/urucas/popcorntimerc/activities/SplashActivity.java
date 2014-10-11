@@ -1,6 +1,7 @@
 package com.urucas.popcorntimerc.activities;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.urucas.popcorntimerc.utils.Utils;
 public class SplashActivity extends SlidingFragmentActivity{
 
     private static final String TAG_NAME = "SplashActivity";
+    public static final int SCAN_INTENT = 1;
 
     private static RemoteControl remote;
     private ControlFragment controlFragment;
@@ -102,4 +104,16 @@ public class SplashActivity extends SlidingFragmentActivity{
         Utils.Toast(SplashActivity.this, error);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+        super.onActivityResult(requestCode, resultCode, intent);
+        if(requestCode == SCAN_INTENT && resultCode == RESULT_OK){
+            leftMenuFragment.updateData();
+        }
+    }
+
+    public void scanCode() {
+        Intent intent = new Intent(SplashActivity.this, ScannerActivity.class);
+        startActivityForResult(intent, SplashActivity.SCAN_INTENT);
+    }
 }

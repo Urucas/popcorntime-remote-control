@@ -121,6 +121,17 @@
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:text="@string/scanqr"
+            android:background="#fff"
+            android:textColor="#4D7AFF"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:id="@+id/scanBtt"
+            />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:text="@string/connect"
             android:background="#fff"
             android:textColor="#4D7AFF"
