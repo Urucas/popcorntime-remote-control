@@ -37,6 +37,8 @@ public class RemoteControl {
     private JSONRPC2Session _jsonRPCSession;
     private Activity _activity;
 
+    public static int volume = 50;
+
     public RemoteControl(Activity activity, String host, String port, String user, String pass) {
         _activity = activity;
         _host = host;

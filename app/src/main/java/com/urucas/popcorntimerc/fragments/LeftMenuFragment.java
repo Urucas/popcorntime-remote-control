@@ -1,6 +1,7 @@
 package com.urucas.popcorntimerc.fragments;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -83,6 +84,7 @@ public class LeftMenuFragment extends android.support.v4.app.Fragment {
             }
         });
 
+
         Button scanBtt = (Button) view.findViewById(R.id.scanBtt);
         scanBtt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +92,10 @@ public class LeftMenuFragment extends android.support.v4.app.Fragment {
                 scanCode();
             }
         });
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            scanBtt.setVisibility(View.GONE);
+        }
 
         hostsLists   = new ArrayList<String>();
         hostsLists.add(PopcornApplication.getSetting(PopcornApplication.PT_HOST));

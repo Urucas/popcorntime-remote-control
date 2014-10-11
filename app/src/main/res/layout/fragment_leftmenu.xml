@@ -13,6 +13,7 @@
         android:textSize="16sp"
         android:textColor="#fff"
         android:layout_marginTop="4dp"
+
     />
 
     <View
@@ -61,6 +62,9 @@
             android:enabled="true"
             android:textColor="#fff"
             android:inputType="textUri"
+            android:background="#4D7AFF"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             />
 
         <TextView
@@ -79,6 +83,9 @@
             android:id="@+id/ptPort"
             android:enabled="true"
             android:inputType="number"
+            android:background="#4D7AFF"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
          />
 
         <TextView
@@ -97,6 +104,9 @@
             android:id="@+id/ptUser"
             android:enabled="true"
             android:inputType="textPersonName"
+            android:background="#4D7AFF"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             />
 
         <TextView
@@ -115,6 +125,9 @@
             android:id="@+id/ptPass"
             android:enabled="true"
             android:inputType="textPersonName"
+            android:background="#4D7AFF"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             />
 
         <Button
