@@ -20,12 +20,16 @@ android {
         targetSdkVersion 20
         versionCode 110
         versionName "1.1.0"
+
     }
     buildTypes {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    packagingOptions {
+        exclude 'README.md'
     }
 }
 
